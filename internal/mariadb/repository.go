@@ -3,8 +3,8 @@ package mariadb
 import (
 	"fmt"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
-	"github.com/mbaraa/danklyrics/internal/models"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/internal/models"
 
 	"gorm.io/gorm"
 )

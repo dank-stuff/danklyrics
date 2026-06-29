@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
-	"github.com/mbaraa/danklyrics/internal/config"
-	"github.com/mbaraa/danklyrics/internal/handlers/web/templates"
-	"github.com/mbaraa/danklyrics/pkg/client"
-	"github.com/mbaraa/danklyrics/pkg/provider"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/internal/config"
+	"codeberg.org/dankstuff/danklyrics/internal/handlers/web/templates"
+	"codeberg.org/dankstuff/danklyrics/pkg/client"
+	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
 
 type api struct {

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
 )
 
 var (

@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
-	website "github.com/mbaraa/danklyrics/website/admin"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	website "codeberg.org/dankstuff/danklyrics/website/admin"
 )
 
 var publicFiles embed.FS

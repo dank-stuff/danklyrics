@@ -9,10 +9,10 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
-	"github.com/mbaraa/danklyrics/internal/handlers/web/templates"
-	"github.com/mbaraa/danklyrics/pkg/models"
-	website "github.com/mbaraa/danklyrics/website/user"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/internal/handlers/web/templates"
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
+	website "codeberg.org/dankstuff/danklyrics/website/user"
 
 	"github.com/a-h/templ"
 )

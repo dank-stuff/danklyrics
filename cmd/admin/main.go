@@ -4,13 +4,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
-	"github.com/mbaraa/danklyrics/internal/config"
-	"github.com/mbaraa/danklyrics/internal/handlers/admin"
-	"github.com/mbaraa/danklyrics/internal/jwt"
-	"github.com/mbaraa/danklyrics/internal/mailer"
-	"github.com/mbaraa/danklyrics/internal/mariadb"
-	"github.com/mbaraa/danklyrics/internal/sitemap"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/internal/config"
+	"codeberg.org/dankstuff/danklyrics/internal/handlers/admin"
+	"codeberg.org/dankstuff/danklyrics/internal/jwt"
+	"codeberg.org/dankstuff/danklyrics/internal/mailer"
+	"codeberg.org/dankstuff/danklyrics/internal/mariadb"
+	"codeberg.org/dankstuff/danklyrics/internal/sitemap"
 )
 
 var (

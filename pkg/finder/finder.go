@@ -1,8 +1,8 @@
 package finder
 
 import (
-	"github.com/mbaraa/danklyrics/pkg/models"
-	"github.com/mbaraa/danklyrics/pkg/provider"
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
+	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 	"errors"
 )
 

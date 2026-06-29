@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
-	"github.com/mbaraa/danklyrics/pkg/models"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
 )
 
 type dankLyricsApi struct {

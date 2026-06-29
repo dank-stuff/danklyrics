@@ -6,7 +6,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/mbaraa/danklyrics/internal/models"
+	"codeberg.org/dankstuff/danklyrics/internal/models"
 )
 
 type AuthenticateAdminParams struct {

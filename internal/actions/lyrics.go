@@ -4,8 +4,8 @@ import (
 	"errors"
 	"time"
 
-	intmodels "github.com/mbaraa/danklyrics/internal/models"
-	"github.com/mbaraa/danklyrics/pkg/models"
+	intmodels "codeberg.org/dankstuff/danklyrics/internal/models"
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
 )
 
 func (a *Actions) GetLyricsByPublicId(id string) (models.Lyrics, error) {

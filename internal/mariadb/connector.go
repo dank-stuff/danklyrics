@@ -1,7 +1,7 @@
 package mariadb
 
 import (
-	"github.com/mbaraa/danklyrics/internal/config"
+	"codeberg.org/dankstuff/danklyrics/internal/config"
 	"fmt"
 
 	"gorm.io/driver/mysql"

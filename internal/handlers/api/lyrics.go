@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
-	"github.com/mbaraa/danklyrics/pkg/client"
-	"github.com/mbaraa/danklyrics/pkg/models"
-	"github.com/mbaraa/danklyrics/pkg/provider"
-	website "github.com/mbaraa/danklyrics/website/user"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/pkg/client"
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
+	"codeberg.org/dankstuff/danklyrics/pkg/provider"
+	website "codeberg.org/dankstuff/danklyrics/website/user"
 )
 
 type lyricsFinderApi struct {

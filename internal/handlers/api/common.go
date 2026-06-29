@@ -1,6 +1,6 @@
 package api
 
-const docsLink = "https://github.com/mbaraa/danklyrics"
+const docsLink = "https://codeberg.org/dankstuff/danklyrics"
 
 type errorResponse struct {
 	Message         string `json:"message"`

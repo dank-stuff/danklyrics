@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/mbaraa/danklyrics/pkg/models"
-	"github.com/mbaraa/danklyrics/pkg/provider"
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
+	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
 
 // Http is the dank lyrics finding client that makes a call to api.danklyrics.com to find the lyrics.

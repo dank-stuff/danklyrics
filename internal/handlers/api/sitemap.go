@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/mbaraa/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
 )
 
 type sitemapApi struct {

@@ -1,4 +1,4 @@
-module github.com/mbaraa/danklyrics
+module codeberg.org/dankstuff/danklyrics
 
 go 1.24.3
 

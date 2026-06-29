@@ -3,7 +3,7 @@ package mariadb
 import (
 	"fmt"
 
-	"github.com/mbaraa/danklyrics/internal/models"
+	"codeberg.org/dankstuff/danklyrics/internal/models"
 )
 
 func Migrate() error {

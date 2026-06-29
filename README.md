@@ -1,14 +1,14 @@
 <div align="center">
   <a href="https://danklyrics.com" target="_blank"><img src="https://danklyrics.com/static/favicon.png" width="150" /></a>
 
-  <h1>DankLyrics</h1>
+<h1>DankLyrics</h1>
   <p>
     <strong>A lyrics finder with the legendary cs1.6 theme.</strong>
   </p>
   <p>
-    <a href="https://goreportcard.com/report/github.com/mbaraa/danklyrics"><img alt="rex-deployment" src="https://goreportcard.com/badge/github.com/mbaraa/danklyrics"/></a>
-    <a href="https://godoc.org/github.com/mbaraa/danklyrics"><img alt="rex-deployment" src="https://godoc.org/github.com/mbaraa/danklyrics?status.png"/></a>
-    <a href="https://github.com/mbaraa/danklyrics/actions/workflows/rex-deploy.yml"><img alt="rex-deployment" src="https://github.com/mbaraa/danklyrics/actions/workflows/rex-deploy.yml/badge.svg"/></a>
+    <a href="https://goreportcard.com/report/codeberg.org/dankstuff/danklyrics"><img alt="rex-deployment" src="https://goreportcard.com/badge/codeberg.org/dankstuff/danklyrics"/></a>
+    <a href="https://godoc.org/codeberg.org/dankstuff/danklyrics"><img alt="rex-deployment" src="https://godoc.org/codeberg.org/dankstuff/danklyrics?status.png"/></a>
+    <a href="https://codeberg.org/dankstuff/danklyrics/actions/workflows/rex-deploy.yml"><img alt="rex-deployment" src="https://codeberg.org/dankstuff/danklyrics/actions/workflows/rex-deploy.yml/badge.svg"/></a>
   </p>
 </div>
 
@@ -20,14 +20,15 @@
 
 DankLyrics provides a Go package, since the project is written in Go lol.
 
-Here's a sample usage, it's pretty straight forward, as the client only has one method :)
+Here's a sample usage, it's pretty straight forward, as the client only has one
+method :)
 
 ```go
 package main
 
 import (
-	"github.com/mbaraa/danklyrics/pkg/client"
-	"github.com/mbaraa/danklyrics/pkg/provider"
+	"codeberg.org/dankstuff/danklyrics/pkg/client"
+	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
 
 func main() {
@@ -63,7 +64,7 @@ _Rest API is available at [api.danklyrics.com](https://api.danklyrics.com)_
 _Displays this message_
 
 ```
-refer to (https://github.com/mbaraa/danklyrics) for API docs!
+refer to (https://codeberg.org/dankstuff/danklyrics) for API docs!
 ```
 
 - **`GET /providers`**:
@@ -101,7 +102,8 @@ Query parameters
 
 - **`GET /dank/lyrics`**:
 
-_Find lyrics from DankLyrics' database, equivalent to using the Go client with `provider.Dank` set_
+_Find lyrics from DankLyrics' database, equivalent to using the Go client with
+`provider.Dank` set_
 
 Query parameters
 
@@ -125,6 +127,8 @@ Query parameters
 
 ---
 
-A [DankStuff <img height="16" width="16" src="https://dankstuff.net/assets/favicon.ico" />](https://dankstuff.net) product!
+A
+[DankStuff <img height="16" width="16" src="https://dankstuff.net/assets/favicon.ico" />](https://dankstuff.net)
+product!
 
-Made with 🧉 by [Baraa Al-Masri](https://mbaraa.com).
+Made with 🧉 by [Lord Baraa](https://lordbaraa.net).
