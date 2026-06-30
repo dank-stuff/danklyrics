@@ -55,7 +55,7 @@ func newApiClient[RespType Song | []Song](method, requestPath string) *apiClient
 		req:         req,
 		initialPath: requestPath,
 	}
-	a.setHeader("User-Agent", fmt.Sprintf("LRCLIB-GO %s (https://codeberg.org/dankstuff/danklyrics/pkg/lrclib)", version.Version))
+	a.setHeader("User-Agent", fmt.Sprintf("LRCLIB-GO %s (https://codeberg.org/dankstuff/danklyrics)", version.Version))
 
 	return a
 }
