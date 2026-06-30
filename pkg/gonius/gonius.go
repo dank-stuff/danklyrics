@@ -2,11 +2,13 @@ package gonius
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 
+	"codeberg.org/dankstuff/danklyrics/internal/version"
 	"codeberg.org/dankstuff/danklyrics/pkg/errors"
 )
 
@@ -88,6 +90,7 @@ func newApiClient(method, requestPath string, body io.Reader, tokener *tokenFetc
 		initialPath: requestPath,
 		tokener:     tokener,
 	}
+	a.setHeader("User-Agent", fmt.Sprintf("GONIUS %s (https://codeberg.org/dankstuff/danklyrics)", version.Version))
 	a.reset()
 
 	return a
