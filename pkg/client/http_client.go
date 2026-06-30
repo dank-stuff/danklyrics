@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"maps"
 	"net/http"
 	"net/url"
 
@@ -13,8 +14,9 @@ import (
 
 // Http is the dank lyrics finding client that makes a call to api.danklyrics.com to find the lyrics.
 type Http struct {
-	providers  string
-	apiAddress string
+	providers        string
+	apiAddress       string
+	providersHeaders http.Header
 }
 
 func NewHttp(c Config) (*Http, error) {
@@ -22,22 +24,28 @@ func NewHttp(c Config) (*Http, error) {
 		return nil, errors.New("must specify at least one lyrics provider")
 	}
 
-	providersStr := ""
+	client := &Http{
+		providersHeaders: make(http.Header),
+	}
+
+	client.providers = ""
 	for i, p := range c.Providers {
-		providersStr += "providers=" + string(p)
+		client.providers += "providers=" + string(p)
 		if i < len(c.Providers)-1 {
-			providersStr += "&"
+			client.providers += "&"
 		}
+	}
+	for p, auth := range c.ProvidersAuth {
+		maps.Copy(client.providersHeaders, auth.HttpHeaders(p))
 	}
 
 	if c.ApiAddress == "" {
-		c.ApiAddress = "https://api.danklyrics.com"
+		client.apiAddress = "https://api.danklyrics.com"
+	} else {
+		client.apiAddress = c.ApiAddress
 	}
 
-	return &Http{
-		providers:  providersStr,
-		apiAddress: c.ApiAddress,
-	}, nil
+	return client, nil
 }
 
 // GetSongLyrics search for song's lyrics using the enabled providers list,
@@ -55,6 +63,7 @@ func (c *Http) GetSongLyrics(s provider.SearchParams) (models.Lyrics, error) {
 	if err != nil {
 		return models.Lyrics{}, err
 	}
+	maps.Copy(req.Header, c.providersHeaders)
 
 	resp, err := new(http.Client).Do(req)
 	if err != nil {

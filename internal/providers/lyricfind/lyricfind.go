@@ -1,30 +1,29 @@
 package lyricfind
 
 import (
-	"errors"
-
+	"codeberg.org/dankstuff/danklyrics/pkg/errors"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 
-	"github.com/mbaraa/lrclibgo"
+	"codeberg.org/dankstuff/danklyrics/pkg/lrclib"
 )
 
 type lyricFindProvider struct {
-	client *lrclibgo.Client
+	client *lrclib.Client
 }
 
 func New() provider.Service {
 	return &lyricFindProvider{
-		client: lrclibgo.NewClient(),
+		client: lrclib.NewClient(),
 	}
 }
 
 func (l *lyricFindProvider) GetSongLyrics(s provider.SearchParams) (models.Lyrics, error) {
-	var lrcSearch lrclibgo.SearchParams
+	var lrcSearch lrclib.SearchParams
 	if s.Query != "" {
 		lrcSearch.Query = s.Query
 	} else {
-		lrcSearch = lrclibgo.SearchParams{
+		lrcSearch = lrclib.SearchParams{
 			TrackName:  s.SongName,
 			ArtistName: s.ArtistName,
 			AlbumName:  s.AlbumName,
@@ -38,15 +37,8 @@ func (l *lyricFindProvider) GetSongLyrics(s provider.SearchParams) (models.Lyric
 	}
 
 	if len(hits) == 0 {
-		return models.Lyrics{}, errors.New("no results were found")
+		return models.Lyrics{}, &errors.ErrNotFound{}
 	}
 
-	lyrics := hits[0].Lyrics()
-	return models.Lyrics{
-		SongName:   hits[0].TrackName,
-		ArtistName: hits[0].ArtistName,
-		AlbumName:  hits[0].AlbumName,
-		Parts:      lyrics.Parts(),
-		Synced:     lyrics.Synced(),
-	}, nil
+	return *hits[0].Lyrics(), nil
 }

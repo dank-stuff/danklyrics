@@ -34,7 +34,13 @@ import (
 func main() {
 	lyricser, err := client.NewHttp(client.Config{
         // available providers are the following.
-		Providers: []provider.Name{provider.Dank, provider.LyricFind},
+        Providers: []provider.Name{provider.Dank, provider.LyricFind, provider.Genius},
+		ProvidersAuth: map[provider.Name]provider.Auth{
+			provider.Genius: provider.Auth{
+				ClientId:     os.Getenv("GENIUS_CLIENT_ID"),
+				ClientSecret: os.Getenv("GENIUS_CLIENT_SECRET"),
+			},
+		},
 	})
 	if err != nil {
 		panic(err)

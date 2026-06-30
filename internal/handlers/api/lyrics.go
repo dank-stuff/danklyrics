@@ -45,6 +45,7 @@ func (l *lyricsFinderApi) HandleListProviders(w http.ResponseWriter, r *http.Req
 	_ = json.NewEncoder(w).Encode([]map[string]string{
 		{"name": "DankLyrics", "id": "dank"},
 		{"name": "LyricFind", "id": "lrc"},
+		{"name": "Genius", "id": "genius"},
 	})
 }
 
@@ -101,11 +102,15 @@ func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Req
 	}
 
 	providersConfig := make([]provider.Name, 0, len(providers))
+	providersAuth := make(map[provider.Name]provider.Auth)
 	for _, p := range providers {
 		providersConfig = append(providersConfig, provider.Name(p))
+		providersAuth[provider.Name(p)] = provider.AuthFromHttpHeaders(provider.Name(p), r.Header)
 	}
+
 	lyricser, err := client.New(client.Config{
-		Providers: providersConfig,
+		Providers:     providersConfig,
+		ProvidersAuth: providersAuth,
 	})
 
 	lyrics, err := lyricser.GetSongLyrics(searchInput)
