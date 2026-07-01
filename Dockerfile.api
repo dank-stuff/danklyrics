@@ -6,8 +6,7 @@ COPY . .
 RUN apk add --no-cache wget git && \
     go install github.com/a-h/templ/cmd/templ@v0.3.1020
 
-RUN go mod tidy && \
-    templ generate && \
+RUN templ generate && \
     go build -ldflags="-w -s" -o danklyrics-api ./cmd/api/main.go
 
 FROM alpine:latest AS run
