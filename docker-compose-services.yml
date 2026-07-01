@@ -1,7 +1,7 @@
 services:
   db:
     container_name: "danklyrics-db"
-    image: "mariadb:11.7"
+    image: "mariadb:11.8"
     restart: "always"
     ports:
       - "3306:3306"
