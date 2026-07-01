@@ -10,9 +10,11 @@ import (
 	"text/template"
 
 	"codeberg.org/dankstuff/danklyrics/internal/actions"
-	"codeberg.org/dankstuff/danklyrics/internal/handlers/web/templates"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
-	website "codeberg.org/dankstuff/danklyrics/website/user"
+	"codeberg.org/dankstuff/danklyrics/website/layouts"
+	"codeberg.org/dankstuff/danklyrics/website/partials"
+	static "codeberg.org/dankstuff/danklyrics/website/static/user"
+	"codeberg.org/dankstuff/danklyrics/website/types"
 
 	"github.com/a-h/templ"
 )
@@ -23,7 +25,7 @@ var sitemapTemplate embed.FS
 var publicFiles embed.FS
 
 func init() {
-	publicFiles = website.FS()
+	publicFiles = static.FS()
 }
 
 type pages struct {
@@ -53,8 +55,8 @@ func (p *pages) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html")
-	err := templates.Layout(templates.PageProps{
-		PageId: templates.FindLyricsPage,
+	err := layouts.Default(types.PageProps{
+		PageId: types.FindLyricsPage,
 		Title:  "Find lyrics",
 	}, templ.NopComponent).Render(r.Context(), w)
 	if err != nil {
@@ -71,10 +73,10 @@ func (p *pages) HandleAbout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html")
-	err := templates.Layout(templates.PageProps{
-		PageId: templates.AboutPage,
+	err := layouts.Default(types.PageProps{
+		PageId: types.AboutPage,
 		Title:  "About",
-	}, templates.About()).Render(r.Context(), w)
+	}, partials.About()).Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -92,25 +94,25 @@ func (p *pages) HandleSubmitLyrics(w http.ResponseWriter, r *http.Request) {
 
 	sessionToken, err := r.Cookie("token")
 	if err != nil || sessionToken == nil {
-		_ = templates.Layout(templates.PageProps{
-			PageId: templates.SubmitLyricsPage,
+		_ = layouts.Default(types.PageProps{
+			PageId: types.SubmitLyricsPage,
 			Title:  "Submit Lyrics",
-		}, templates.SubmitLyricsAuth()).Render(r.Context(), w)
+		}, partials.SubmitLyricsAuth()).Render(r.Context(), w)
 		return
 	}
 
 	if err := p.usecases.ConfirmAuth(sessionToken.Value); err != nil {
-		_ = templates.Layout(templates.PageProps{
-			PageId: templates.SubmitLyricsPage,
+		_ = layouts.Default(types.PageProps{
+			PageId: types.SubmitLyricsPage,
 			Title:  "Submit Lyrics",
-		}, templates.SubmitLyricsAuth()).Render(r.Context(), w)
+		}, partials.SubmitLyricsAuth()).Render(r.Context(), w)
 		return
 	}
 
-	err = templates.Layout(templates.PageProps{
-		PageId: templates.SubmitLyricsPage,
+	err = layouts.Default(types.PageProps{
+		PageId: types.SubmitLyricsPage,
 		Title:  "Submit Lyrics",
-	}, templates.SubmitLyrics()).Render(r.Context(), w)
+	}, partials.SubmitLyrics()).Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -125,7 +127,7 @@ func (p *pages) HandleAboutTab(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html")
-	err := templates.About().Render(r.Context(), w)
+	err := partials.About().Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -143,16 +145,16 @@ func (p *pages) HandleSubmitLyricsTab(w http.ResponseWriter, r *http.Request) {
 
 	sessionToken, err := r.Cookie("token")
 	if err != nil || sessionToken == nil {
-		_ = templates.SubmitLyricsAuth().Render(r.Context(), w)
+		_ = partials.SubmitLyricsAuth().Render(r.Context(), w)
 		return
 	}
 
 	if err := p.usecases.ConfirmAuth(sessionToken.Value); err != nil {
-		_ = templates.SubmitLyricsAuth().Render(r.Context(), w)
+		_ = partials.SubmitLyricsAuth().Render(r.Context(), w)
 		return
 	}
 
-	err = templates.SubmitLyrics().Render(r.Context(), w)
+	err = partials.SubmitLyrics().Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -172,24 +174,24 @@ func (p *pages) HandleLyrics(w http.ResponseWriter, r *http.Request) {
 	lyrics, err := p.usecases.GetLyricsByPublicId(lyricsSlug)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
-		_ = templates.Layout(templates.PageProps{
-			PageId: templates.LyricsPage,
+		_ = layouts.Default(types.PageProps{
+			PageId: types.LyricsPage,
 			Title:  "Not found",
-		}, templates.SingleLyrics(models.Lyrics{})).Render(r.Context(), w)
+		}, partials.SingleLyrics(models.Lyrics{})).Render(r.Context(), w)
 		return
 	}
 
-	err = templates.Layout(templates.PageProps{
-		PageId:      templates.LyricsPage,
+	err = layouts.Default(types.PageProps{
+		PageId:      types.LyricsPage,
 		Title:       fmt.Sprintf("%s, %s Lyrics", lyrics.ArtistName, lyrics.SongName),
 		Description: fmt.Sprintf("%s by %s from the album %s", lyrics.SongName, lyrics.ArtistName, lyrics.AlbumName),
 		Url:         "https://danklyrics.com/lyrics/" + lyrics.PublicId,
-		Audio: templates.AudioProps{
+		Audio: types.AudioProps{
 			Album:     lyrics.AlbumName,
 			Musician:  lyrics.ArtistName,
 			SongTitle: lyrics.SongName,
 		},
-	}, templates.SingleLyrics(lyrics)).Render(r.Context(), w)
+	}, partials.SingleLyrics(lyrics)).Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)

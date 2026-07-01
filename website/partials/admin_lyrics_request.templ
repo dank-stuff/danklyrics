@@ -1,0 +1,12 @@
+package partials
+
+import "codeberg.org/dankstuff/danklyrics/internal/actions"
+
+templ AdminLyricsRequest(lyrics actions.LyricsRequest) {
+	<code>
+		for _, part := range lyrics.Parts {
+			{ part }
+			<br/>
+		}
+	</code>
+}

@@ -214,13 +214,13 @@ main > div h2 {
   align-items: center;
 }
 
-.github-box {
-  background-color: black;
+.codeberg-box {
+  background-color: #2585cd;
   padding: 8px;
   max-height: 40px;
 }
 
-.github-img {
+.codeberg-img {
   height: 24px;
   margin-left: 4px;
   margin-right: 4px;

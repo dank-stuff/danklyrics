@@ -1,6 +1,11 @@
-package templates
+package layouts
 
-templ Layout(props PageProps, content templ.Component) {
+import (
+	"codeberg.org/dankstuff/danklyrics/website/partials"
+	"codeberg.org/dankstuff/danklyrics/website/types"
+)
+
+templ Default(props types.PageProps, content templ.Component) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -76,7 +81,7 @@ templ Layout(props PageProps, content templ.Component) {
 			<script defer src="/static/htmx/hyperscript.min.js"></script>
 		</head>
 		<body>
-			@header()
+			@partials.Header()
 			<hr class="cs-hr"/>
 			<main>
 				<section class="dank-container">
@@ -88,13 +93,13 @@ templ Layout(props PageProps, content templ.Component) {
 								tabindex="0"
 								type="radio"
 								id="lyrics"
-								if props.PageId == LyricsPage {
+								if props.PageId == types.LyricsPage {
 									checked="checked"
 								}
 							/>
 							<label class="label" for="lyrics">Lyrics</label>
 							<div id="lyrics-tab" class="panel tab-panel" tabindex="0">
-								if props.PageId != LyricsPage {
+								if props.PageId != types.LyricsPage {
 									Make a search first lol.
 									<br/>
 									Going to the "Find Lyrics" tab might help!
@@ -108,14 +113,14 @@ templ Layout(props PageProps, content templ.Component) {
 								tabindex="1"
 								type="radio"
 								id="findlyrics"
-								if props.PageId == FindLyricsPage {
+								if props.PageId == types.FindLyricsPage {
 									checked="checked"
 								}
 								_="on click js window.history.replaceState(null, document.title, `${window.location.protocol}//${window.location.host}/`)"
 							/>
 							<label class="label" for="findlyrics">Find Lyrics</label>
 							<div id="findlyrics-tab" class="panel tab-panel" tabindex="1">
-								@FindLyrics()
+								@partials.FindLyrics()
 							</div>
 							<input
 								class="radiotab"
@@ -127,14 +132,14 @@ templ Layout(props PageProps, content templ.Component) {
 								hx-target="#submitlyrics-tab"
 								hx-swap="innerHTML"
 								hx-trigger="click"
-								if props.PageId == SubmitLyricsPage {
+								if props.PageId == types.SubmitLyricsPage {
 									checked="checked"
 								}
 								_="on click js window.history.replaceState(null, document.title, `${window.location.protocol}//${window.location.host}/lyrics/submit`)"
 							/>
 							<label class="label" for="submitlyrics">Submit lyrics</label>
 							<div id="submitlyrics-tab" class="panel tab-panel" tabindex="2">
-								if props.PageId != SubmitLyricsPage {
+								if props.PageId != types.SubmitLyricsPage {
 									Woah slow down sparky!
 								} else {
 									@content
@@ -150,14 +155,14 @@ templ Layout(props PageProps, content templ.Component) {
 								hx-target="#about-tab"
 								hx-swap="innerHTML"
 								hx-trigger="click"
-								if props.PageId == AboutPage {
+								if props.PageId == types.AboutPage {
 									checked="checked"
 								}
 								_="on click js window.history.replaceState(null, document.title, `${window.location.protocol}//${window.location.host}/about`)"
 							/>
 							<label class="label" for="about">About</label>
 							<div id="about-tab" class="panel tab-panel" tabindex="3">
-								if props.PageId != AboutPage {
+								if props.PageId != types.AboutPage {
 									Woah slow down sparky!
 								} else {
 									@content
@@ -168,8 +173,10 @@ templ Layout(props PageProps, content templ.Component) {
 				</section>
 			</main>
 			<hr class="cs-hr"/>
-			@footer()
-			<script>console.log("helloooo 👋");</script>
+			@partials.Footer()
+			<script>
+				console.log("helloooo 👋");
+			</script>
 		</body>
 	</html>
 }

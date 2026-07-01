@@ -19,7 +19,6 @@ function checkAuth() {
 
 function init() {
   checkAuth();
-  form.addEventListener("submit", handleFindLyricsFormSubmission);
   console.log("helloooo 👋");
 }
 

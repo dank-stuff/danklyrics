@@ -1,0 +1,128 @@
+package pages
+
+templ AdminIndex() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>DankLyrics</title>
+			<link
+				rel="stylesheet"
+				type="text/css"
+				href="https://cdn.jsdelivr.net/gh/ekmas/cs16.css@main/css/cs16.min.css"
+			/>
+			<link rel="stylesheet" href="/static/style.css"/>
+			<link rel="shortcut icon" href="/static/favicon.png"/>
+			<script defer src="/static/htmx/htmx.min.js"></script>
+			<script defer src="/static/htmx/json-enc.js"></script>
+		</head>
+		<body>
+			<header>
+				<section class="title-container">
+					<h1 class="title">DankLyrics</h1>
+					<p class="title-sub">Admin's Control Panel.</p>
+				</section>
+			</header>
+			<hr class="cs-hr"/>
+			<main>
+				<section class="dank-container">
+					<div class="dank-form-container">
+						<div id="dank-submit-form-container">
+							<div class="dank-form">
+								<div id="requests"></div>
+								<button
+									hx-get="/api/lyrics/requests"
+									hx-target="#requests"
+									hx-swap="outerHTML"
+									class="cs-btn"
+									type="button"
+									style="display: none"
+									id="fetch-requests-btn"
+								>
+									Load lyrics requests
+								</button>
+								<form
+									action="#"
+									id="dank-auth-form"
+									hx-post="/api/auth"
+									hx-ext="json-enc"
+									hx-target="this"
+									hx-swap="delete"
+								>
+									<input
+										class="cs-input dank-email"
+										name="username"
+										id="username"
+										type="text"
+										placeholder="Username"
+										required
+									/>
+									<input
+										class="cs-input dank-email"
+										name="password"
+										id="password"
+										type="password"
+										placeholder="Password"
+										required
+									/>
+									<input
+										class="cs-btn dank-form-button"
+										type="submit"
+										value="Authenticate"
+									/>
+									<div id="dank-lyrics-auth-content"></div>
+								</form>
+							</div>
+						</div>
+						<form
+							action="#"
+							id="dank-submit-form"
+							style="display: none"
+							class="dank-form"
+						>
+							<div class="artist-album-container">
+								<input
+									class="cs-input dank-song-name"
+									id="songName"
+									type="text"
+									placeholder="Song name"
+									required
+								/>
+								<input
+									class="cs-input dank-artist-name"
+									id="artistName"
+									type="text"
+									placeholder="Artist name"
+									required
+								/>
+								<input
+									class="cs-input dank-album-name"
+									id="albumName"
+									type="text"
+									placeholder="Album name"
+									required
+								/>
+							</div>
+							<textarea
+								class="cs-input dank-lyrics"
+								id="lyrics"
+								type="input"
+								rows="20"
+								placeholder="Lyrics :0"
+								required
+							></textarea>
+							<input
+								class="cs-btn dank-form-button"
+								type="submit"
+								value="Submit"
+							/>
+							<p id="dank-lyrics-submit-content" style="user-select: text">...</p>
+						</form>
+					</div>
+				</section>
+			</main>
+			<script src="/static/script.js"></script>
+		</body>
+	</html>
+}

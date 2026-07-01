@@ -8,9 +8,9 @@ import (
 
 	"codeberg.org/dankstuff/danklyrics/internal/actions"
 	"codeberg.org/dankstuff/danklyrics/internal/config"
-	"codeberg.org/dankstuff/danklyrics/internal/handlers/web/templates"
 	"codeberg.org/dankstuff/danklyrics/pkg/client"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
+	"codeberg.org/dankstuff/danklyrics/website/partials"
 )
 
 type api struct {
@@ -68,7 +68,7 @@ func (a *api) HandleGetSongLyrics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	templates.SingleLyrics(lyricsText).Render(r.Context(), w)
+	partials.SingleLyrics(lyricsText).Render(r.Context(), w)
 }
 
 func (a *api) HandleAuthSubmitLyrics(w http.ResponseWriter, r *http.Request) {

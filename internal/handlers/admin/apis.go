@@ -1,21 +1,13 @@
 package admin
 
 import (
-	"embed"
 	"encoding/json"
-	"html/template"
 	"net/http"
 	"strconv"
 	"time"
 
 	"codeberg.org/dankstuff/danklyrics/internal/actions"
-)
-
-var (
-	//go:embed admin_lyrics_requests.html
-	lyricsRequestsTemplate embed.FS
-	//go:embed admin_lyrics_request.html
-	lyricsRequestTemplate embed.FS
+	"codeberg.org/dankstuff/danklyrics/website/partials"
 )
 
 type api struct {
@@ -69,8 +61,7 @@ func (a *api) HandleListLyricsRequests(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t := template.Must(template.ParseFS(lyricsRequestsTemplate, "admin_lyrics_requests.html"))
-	err = t.Execute(w, requests)
+	err = partials.AdminLyricsRequests(requests).Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("excuse me?"))
@@ -100,8 +91,7 @@ func (a *api) HandleGetLyricsRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t := template.Must(template.ParseFS(lyricsRequestTemplate, "admin_lyrics_request.html"))
-	err = t.Execute(w, lyricsRequest.Parts)
+	err = partials.AdminLyricsRequest(lyricsRequest).Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("excuse me?"))

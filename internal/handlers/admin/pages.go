@@ -7,13 +7,14 @@ import (
 	"net/http"
 
 	"codeberg.org/dankstuff/danklyrics/internal/actions"
-	website "codeberg.org/dankstuff/danklyrics/website/admin"
+	viewpages "codeberg.org/dankstuff/danklyrics/website/pages"
+	static "codeberg.org/dankstuff/danklyrics/website/static/admin"
 )
 
 var publicFiles embed.FS
 
 func init() {
-	publicFiles = website.FS()
+	publicFiles = static.FS()
 }
 
 type pages struct {
@@ -27,16 +28,8 @@ func NewAdminPages(usecases *actions.Actions) *pages {
 }
 
 func (p *pages) HandleIndex(w http.ResponseWriter, r *http.Request) {
-	content, err := publicFiles.Open("index.html")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		log.Println(err)
-		return
-	}
-
 	w.Header().Set("Content-Type", "text/html")
-	_, _ = io.Copy(w, content)
-	_ = content.Close()
+	viewpages.AdminIndex().Render(r.Context(), w)
 }
 
 func (p *pages) HandleRobots(w http.ResponseWriter, r *http.Request) {

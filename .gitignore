@@ -4,14 +4,11 @@ node_modules
 .env.*
 !.env.example
 danklyrics*
-views/**/*.go
-views/**/*.txt
 _*/
 tmp/
 Session.vim
 .db/
-website/admin/htmx/*.js
-website/user/htmx/*.js
+website/static/admin/htmx/*.js
+website/static/user/htmx/*.js
 *_templ.go
 *_templ.txt
-

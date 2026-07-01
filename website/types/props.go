@@ -1,4 +1,4 @@
-package templates
+package types
 
 type PageType string
 

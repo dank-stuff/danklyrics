@@ -1,0 +1,52 @@
+package partials
+
+import (
+	"fmt"
+
+	"codeberg.org/dankstuff/danklyrics/internal/actions"
+)
+
+templ AdminLyricsRequests(reqs []actions.LyricsRequest) {
+	<div class="lyrics-requests">
+		for _, req := range reqs {
+			<div id={ fmt.Sprintf("lyrics-request-%d", req.Id) } style="background-color: #3e4637">
+				<div class="lyrics-request">
+					<div class="lyrics-request-meta">
+						<p
+							style="cursor: pointer"
+							hx-get={ fmt.Sprintf("/api/lyrics/request/%d", req.Id) }
+							hx-target={ fmt.Sprintf("#lyrics-request-%d-content", req.Id) }
+							hx-swap="innerHTML"
+							hx-trigger="click"
+						>
+							{ req.SongTitle } by { req.ArtistName } from the album { req.AlbumTitle }
+						</p>
+					</div>
+					<div class="lyrics-request-actions">
+						<button
+							hx-post={ fmt.Sprintf("/api/lyrics/request/approve/%d", req.Id) }
+							hx-target={ fmt.Sprintf("#lyrics-request-%d", req.Id) }
+							hx-swap="delete"
+							hx-trigger="click"
+							class="cs-btn"
+							type="button"
+						>
+							Approve
+						</button>
+						<button
+							hx-post={ fmt.Sprintf("/api/lyrics/request/reject/%d", req.Id) }
+							hx-target={ fmt.Sprintf("#lyrics-request-%d", req.Id) }
+							hx-swap="delete"
+							hx-trigger="click"
+							class="cs-btn"
+							type="button"
+						>
+							Reject
+						</button>
+					</div>
+				</div>
+				<div id={ fmt.Sprintf("lyrics-request-%d-content", req.Id) }></div>
+			</div>
+		}
+	</div>
+}
