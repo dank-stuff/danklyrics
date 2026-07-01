@@ -3,7 +3,7 @@ module codeberg.org/dankstuff/danklyrics
 go 1.26.0
 
 require (
-	github.com/a-h/templ v0.3.906
+	github.com/a-h/templ v0.3.1020
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/gocolly/colly v1.2.0
 	github.com/golang-jwt/jwt/v4 v4.5.2
