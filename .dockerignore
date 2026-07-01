@@ -10,6 +10,7 @@ _*/
 tmp/
 Session.vim
 .db
+website/static/admin/htmx/*.js
+website/static/user/htmx/*.js
 *_templ.go
-website/admin/htmx/*.js
-website/user/htmx/*.js
+*_templ.txt

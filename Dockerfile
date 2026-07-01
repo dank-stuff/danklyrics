@@ -8,7 +8,7 @@ RUN apk add --no-cache wget
 RUN	wget https://unpkg.com/htmx-ext-json-enc@2.0.2/dist/json-enc.min.js -O website/static/user/htmx/json-enc.js &&\
 	wget https://unpkg.com/hyperscript.org@0.9.14/dist/_hyperscript.min.js -O website/static/user/htmx/hyperscript.min.js &&\
 	wget https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js -O website/static/user/htmx/htmx.min.js && \
-    go install github.com/a-h/templ/cmd/templ@v0.3.906
+    go install github.com/a-h/templ/cmd/templ@v0.3.1020
 
 RUN go mod tidy && \
     templ generate && \
