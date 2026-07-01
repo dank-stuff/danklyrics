@@ -28,9 +28,12 @@ func (a *Actions) GetLyricsBySongTitle(title string) ([]models.Lyrics, error) {
 	findParams := FindLyricsParams{
 		SongTitle: title,
 	}
-	intLyricses, err := a.repo.FindLyricsAll(findParams)
+	intLyricses, err := a.repo.FindLyricsExact(findParams)
 	if err != nil {
-		return nil, err
+		intLyricses, err = a.repo.FindLyricsAll(findParams)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	lyricses := make([]models.Lyrics, 0, len(intLyricses))
@@ -52,9 +55,12 @@ func (a *Actions) GetLyricsBySongTitleAndArtistName(title, artistName string) ([
 		SongTitle:  title,
 		ArtistName: artistName,
 	}
-	intLyricses, err := a.repo.FindLyricsAll(findParams)
+	intLyricses, err := a.repo.FindLyricsExact(findParams)
 	if err != nil {
-		return nil, err
+		intLyricses, err = a.repo.FindLyricsAll(findParams)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	lyricses := make([]models.Lyrics, 0, len(intLyricses))
@@ -76,9 +82,12 @@ func (a *Actions) GetLyricsBySongTitleAndAlbumTitle(title, albumTitle string) ([
 		SongTitle:  title,
 		AlbumTitle: albumTitle,
 	}
-	intLyricses, err := a.repo.FindLyricsAll(findParams)
+	intLyricses, err := a.repo.FindLyricsExact(findParams)
 	if err != nil {
-		return nil, err
+		intLyricses, err = a.repo.FindLyricsAll(findParams)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	lyricses := make([]models.Lyrics, 0, len(intLyricses))
@@ -101,9 +110,13 @@ func (a *Actions) GetLyricsBySongTitleArtistNameAndAlbumTitle(title, artistName,
 		ArtistName: artistName,
 		AlbumTitle: albumTitle,
 	}
-	intLyricses, err := a.repo.FindLyricsAll(findParams)
+
+	intLyricses, err := a.repo.FindLyricsExact(findParams)
 	if err != nil {
-		return nil, err
+		intLyricses, err = a.repo.FindLyricsAll(findParams)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	lyricses := make([]models.Lyrics, 0, len(intLyricses))

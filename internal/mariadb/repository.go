@@ -96,26 +96,42 @@ func (r *repository) GetLyricsByPublicId(id string) (models.Lyrics, error) {
 }
 
 func (r *repository) FindLyricsExact(search actions.FindLyricsParams) ([]models.Lyrics, error) {
-	lyricses := make([]models.Lyrics, 0)
+	whereClause := []string{"LOWER(song_title) LIKE LOWER(?)"}
+	whereArgs := []any{likeArg(search.SongTitle)}
 
-	whereClause := "LOWER(song_title) LIKE LOWER(?) AND LOWER(artist_name) LIKE LOWER(?) AND LOWER(album_title) LIKE LOWER(?)"
-	whereArgs := []any{
-		likeArg(search.SongTitle),
-		likeArg(search.ArtistName),
-		likeArg(search.AlbumTitle),
+	if search.ArtistName != "" {
+		whereClause = append(whereClause, "AND LOWER(artist_name) LIKE LOWER(?)")
+		whereArgs = append(whereArgs, likeArg(search.ArtistName))
+	}
+	if search.AlbumTitle != "" {
+		whereClause = append(whereClause, "AND LOWER(album_title) LIKE LOWER(?)")
+		whereArgs = append(whereArgs, likeArg(search.AlbumTitle))
 	}
 
+	// log.Printf("WHERE: `%s`\n", strings.Join(whereClause, " "))
+
+	lyricses := make([]models.Lyrics, 0)
 	err := tryWrapDbError(
 		r.client.
 			Model(new(models.Lyrics)).
-			Preload("LyricsPlain").
-			Preload("LyricsSynced").
-			Where(whereClause, whereArgs...).
+			Where(strings.Join(whereClause, " "), whereArgs...).
 			Find(&lyricses).
 			Error,
 	)
 	if err != nil {
 		return nil, err
+	}
+	if len(lyricses) == 0 {
+		return nil, ErrRecordNotFound{}
+	}
+
+	for i := range lyricses {
+		parts, synced, err := r.getLyricsParts(lyricses[i].Id)
+		if err != nil {
+			return nil, err
+		}
+		lyricses[i].LyricsPlain = parts
+		lyricses[i].LyricsSynced = synced
 	}
 
 	return lyricses, nil
@@ -131,8 +147,6 @@ var innodbStopwords = map[string]struct{}{
 }
 
 func (r *repository) FindLyricsAll(search actions.FindLyricsParams) ([]models.Lyrics, error) {
-	lyricses := make([]models.Lyrics, 0)
-
 	searchWords := make([]string, 0)
 	for _, word := range []string{
 		search.SongTitle,
@@ -165,11 +179,17 @@ func (r *repository) FindLyricsAll(search actions.FindLyricsParams) ([]models.Ly
 	}
 	ftsBooleanQuery := strings.TrimSpace(booleanQuery.String())
 
-	whereClause := "MATCH(song_title, artist_name, album_title) AGAINST(? IN BOOLEAN MODE)"
+	whereClause := `MATCH(song_title, artist_name, album_title) AGAINST(? IN BOOLEAN MODE) OR
+	LOWER(song_title) LIKE LOWER(?)`
 	whereArgs := []any{
 		ftsBooleanQuery,
+		likeArg(search.SongTitle),
 	}
 
+	// log.Printf("WHERE: `%s`\n", strings.Replace(whereClause, "?", "'"+ftsBooleanQuery+"'", 1))
+	// log.Printf("search: %+v\n", search)
+
+	lyricses := make([]models.Lyrics, 0)
 	err := tryWrapDbError(
 		r.client.
 			Model(new(models.Lyrics)).
@@ -179,6 +199,9 @@ func (r *repository) FindLyricsAll(search actions.FindLyricsParams) ([]models.Ly
 	)
 	if err != nil {
 		return nil, err
+	}
+	if len(lyricses) == 0 {
+		return nil, ErrRecordNotFound{}
 	}
 
 	for i := range lyricses {
