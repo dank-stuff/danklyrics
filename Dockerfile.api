@@ -3,7 +3,8 @@ FROM golang:1.26-alpine AS build
 WORKDIR /app
 COPY . .
 
-RUN go install github.com/a-h/templ/cmd/templ@v0.3.1020
+RUN apk add --no-cache wget git && \
+    go install github.com/a-h/templ/cmd/templ@v0.3.1020
 
 RUN go mod tidy && \
     templ generate && \

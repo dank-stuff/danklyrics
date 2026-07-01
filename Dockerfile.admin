@@ -3,7 +3,7 @@ FROM golang:1.26-alpine AS build
 WORKDIR /app
 COPY . .
 
-RUN apk add --no-cache wget
+RUN apk add --no-cache wget git
 
 RUN	wget https://unpkg.com/htmx-ext-json-enc@2.0.2/dist/json-enc.min.js -O website/static/admin/htmx/json-enc.js &&\
 	wget https://unpkg.com/hyperscript.org@0.9.14/dist/_hyperscript.min.js -O website/static/admin/htmx/hyperscript.min.js &&\
