@@ -11,9 +11,9 @@ type Lyrics struct {
 	Id       uint   `gorm:"primaryKey;autoIncrement"`
 	PublicId string `gorm:"index;unique;not null"`
 
-	SongTitle  string `gorm:"index"`
-	ArtistName string `gorm:"index"`
-	AlbumTitle string `gorm:"index"`
+	SongTitle  string `gorm:"size:255;collate:utf8mb4_unicode_ci;index:idx_fts_music,class:FULLTEXT"`
+	ArtistName string `gorm:"size:255;collate:utf8mb4_unicode_ci;index:idx_fts_music,class:FULLTEXT"`
+	AlbumTitle string `gorm:"size:255;collate:utf8mb4_unicode_ci;index:idx_fts_music,class:FULLTEXT"`
 
 	LyricsPlain  []string          `gorm:"-"`
 	LyricsSynced map[string]string `gorm:"-"`
@@ -64,14 +64,14 @@ func (l *Lyrics) AfterCreate(tx *gorm.DB) error {
 }
 
 type LyricsPart struct {
+	Id       uint `gorm:"primaryKey;autoIncrement"`
 	LyricsId uint
-	Lyrics   Lyrics
 	Text     string
 }
 
 type LyricsSyncedPart struct {
+	Id       uint `gorm:"primaryKey;autoIncrement"`
 	LyricsId uint
-	Lyrics   Lyrics
 	Time     string
 	Text     string
 }

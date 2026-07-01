@@ -2,6 +2,7 @@ package mariadb
 
 import (
 	"fmt"
+	"strings"
 
 	"codeberg.org/dankstuff/danklyrics/internal/actions"
 	"codeberg.org/dankstuff/danklyrics/internal/models"
@@ -94,88 +95,86 @@ func (r *repository) GetLyricsByPublicId(id string) (models.Lyrics, error) {
 	return lyrics, nil
 }
 
-func (r *repository) GetLyricsBySongTitle(title string) ([]models.Lyrics, error) {
+func (r *repository) FindLyricsExact(search actions.FindLyricsParams) ([]models.Lyrics, error) {
 	lyricses := make([]models.Lyrics, 0)
+
+	whereClause := "LOWER(song_title) LIKE LOWER(?) AND LOWER(artist_name) LIKE LOWER(?) AND LOWER(album_title) LIKE LOWER(?)"
+	whereArgs := []any{
+		likeArg(search.SongTitle),
+		likeArg(search.ArtistName),
+		likeArg(search.AlbumTitle),
+	}
 
 	err := tryWrapDbError(
 		r.client.
 			Model(new(models.Lyrics)).
-			Find(&lyricses, "LOWER(song_title) LIKE LOWER(?)", likeArg(title)).
+			Preload("LyricsPlain").
+			Preload("LyricsSynced").
+			Where(whereClause, whereArgs...).
+			Find(&lyricses).
 			Error,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	for i := range lyricses {
-		parts, synced, err := r.getLyricsParts(lyricses[i].Id)
-		if err != nil {
-			return nil, err
-		}
-		lyricses[i].LyricsPlain = parts
-		lyricses[i].LyricsSynced = synced
-	}
-
 	return lyricses, nil
 }
 
-func (r *repository) GetLyricsBySongTitleAndArtistName(songTitle, artistName string) ([]models.Lyrics, error) {
+var innodbStopwords = map[string]struct{}{
+	"a": struct{}{}, "about": struct{}{}, "an": struct{}{}, "are": struct{}{}, "as": struct{}{}, "at": struct{}{},
+	"be": struct{}{}, "by": struct{}{}, "com": struct{}{}, "de": struct{}{}, "en": struct{}{}, "for": struct{}{},
+	"from": struct{}{}, "how": struct{}{}, "i": struct{}{}, "in": struct{}{}, "is": struct{}{}, "it": struct{}{},
+	"la": struct{}{}, "of": struct{}{}, "on": struct{}{}, "or": struct{}{}, "that": struct{}{}, "the": struct{}{},
+	"this": struct{}{}, "to": struct{}{}, "was": struct{}{}, "what": struct{}{}, "when": struct{}{},
+	"where": struct{}{}, "who": struct{}{}, "will": struct{}{}, "with": struct{}{}, "und": struct{}{}, "www": struct{}{},
+}
+
+func (r *repository) FindLyricsAll(search actions.FindLyricsParams) ([]models.Lyrics, error) {
 	lyricses := make([]models.Lyrics, 0)
+
+	searchWords := make([]string, 0)
+	for _, word := range []string{
+		search.SongTitle,
+		search.AlbumTitle,
+		search.ArtistName,
+	} {
+		word = strings.TrimSpace(word)
+		if len(word) == 0 {
+			continue
+		}
+		searchWords = append(searchWords, strings.Split(word, " ")...)
+	}
+
+	booleanQuery := new(strings.Builder)
+	for _, word := range searchWords {
+		word = strings.ToLower(word)
+
+		if _, ok := innodbStopwords[word]; ok {
+			continue
+		}
+
+		if len(word) < 3 {
+			booleanQuery.WriteString(word + " ")
+			continue
+		}
+
+		booleanQuery.WriteString("+")
+		booleanQuery.WriteString(word)
+		booleanQuery.WriteString("* ")
+	}
+	ftsBooleanQuery := strings.TrimSpace(booleanQuery.String())
+
+	whereClause := "MATCH(song_title, artist_name, album_title) AGAINST(? IN BOOLEAN MODE)"
+	whereArgs := []any{
+		ftsBooleanQuery,
+	}
 
 	err := tryWrapDbError(
 		r.client.
 			Model(new(models.Lyrics)).
-			Find(&lyricses, "LOWER(song_title) LIKE LOWER(?) AND LOWER(artist_name) LIKE LOWER(?)", likeArg(songTitle), likeArg(artistName)).
-			Error,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	for i := range lyricses {
-		parts, synced, err := r.getLyricsParts(lyricses[i].Id)
-		if err != nil {
-			return nil, err
-		}
-		lyricses[i].LyricsPlain = parts
-		lyricses[i].LyricsSynced = synced
-	}
-
-	return lyricses, nil
-}
-
-func (r *repository) GetLyricsBySongAndAlbumTitle(songTitle, albumTitle string) ([]models.Lyrics, error) {
-	lyricses := make([]models.Lyrics, 0)
-
-	err := tryWrapDbError(
-		r.client.
-			Model(new(models.Lyrics)).
-			Find(&lyricses, "LOWER(song_title) LIKE LOWER(?) AND LOWER(album_title) LIKE LOWER(?)", likeArg(songTitle), likeArg(albumTitle)).
-			Error,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	for i := range lyricses {
-		parts, synced, err := r.getLyricsParts(lyricses[i].Id)
-		if err != nil {
-			return nil, err
-		}
-		lyricses[i].LyricsPlain = parts
-		lyricses[i].LyricsSynced = synced
-	}
-
-	return lyricses, nil
-}
-
-func (r *repository) GetLyricsBySongTitleArtistNameAndAlbumTitle(songTitle, artistName, albumTitle string) ([]models.Lyrics, error) {
-	lyricses := make([]models.Lyrics, 0)
-
-	err := tryWrapDbError(
-		r.client.
-			Model(new(models.Lyrics)).
-			Find(&lyricses, "LOWER(song_title) LIKE LOWER(?) AND LOWER(artist_name) LIKE LOWER(?) AND LOWER(album_title) LIKE LOWER(?)", likeArg(songTitle), likeArg(artistName), likeArg(albumTitle)).
+			Where(whereClause, whereArgs...).
+			Find(&lyricses).
 			Error,
 	)
 	if err != nil {

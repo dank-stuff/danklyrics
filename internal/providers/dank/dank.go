@@ -1,13 +1,14 @@
 package dank
 
 import (
-	"codeberg.org/dankstuff/danklyrics/pkg/models"
-	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
+
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
+	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
 
 type dankProvider struct {
@@ -32,6 +33,9 @@ func (d *dankProvider) GetSongLyrics(s provider.SearchParams) (models.Lyrics, er
 	resp, err := new(http.Client).Do(req)
 	if err != nil {
 		return models.Lyrics{}, err
+	}
+	if resp.StatusCode != 200 {
+		return models.Lyrics{}, errors.New("no results were found")
 	}
 
 	var lyrics []models.Lyrics

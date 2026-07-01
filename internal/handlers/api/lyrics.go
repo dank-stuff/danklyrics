@@ -101,29 +101,8 @@ func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Req
 		searchInput.Query = searchQuery[0]
 	}
 
-	providersConfig := make([]provider.Name, 0, len(providers))
-	providersAuth := make(map[provider.Name]provider.Auth)
-	for _, p := range providers {
-		providersConfig = append(providersConfig, provider.Name(p))
-		providersAuth[provider.Name(p)] = provider.AuthFromHttpHeaders(provider.Name(p), r.Header)
-	}
-
-	lyricser, err := client.New(client.Config{
-		Providers:     providersConfig,
-		ProvidersAuth: providersAuth,
-	})
-
-	lyrics, err := lyricser.GetSongLyrics(searchInput)
-	if err != nil {
-		log.Println("oppsie doopsie some shit happened", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		_ = json.NewEncoder(w).Encode(errorResponse{
-			Message: "No results were found",
-		})
-		return
-	}
-
 	var lyricses []models.Lyrics
+	var err error
 	switch {
 	case !okArtist && !okAlbum && okSong:
 		lyricses, _ = l.usecases.GetLyricsBySongTitle(songName[0])
@@ -145,6 +124,42 @@ func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Req
 		if err != nil {
 			break
 		}
+	}
+
+	if len(lyricses) > 0 {
+		_ = json.NewEncoder(w).Encode(lyricses[0])
+		return
+	}
+
+	providersConfig := make([]provider.Name, 0, len(providers))
+	providersAuth := make(map[provider.Name]provider.Auth)
+	for _, p := range providers {
+		if p == string(provider.Dank) {
+			continue
+		}
+		providersConfig = append(providersConfig, provider.Name(p))
+		providersAuth[provider.Name(p)] = provider.AuthFromHttpHeaders(provider.Name(p), r.Header)
+	}
+
+	lyricser, err := client.New(client.Config{
+		Providers:     providersConfig,
+		ProvidersAuth: providersAuth,
+	})
+
+	if err != nil || lyricser == nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(errorResponse{
+			Message: "No results were found",
+		})
+	}
+	lyrics, err := lyricser.GetSongLyrics(searchInput)
+	if err != nil {
+		log.Println("oppsie doopsie some shit happened", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(errorResponse{
+			Message: "No results were found",
+		})
+		return
 	}
 	if len(lyricses) == 0 && len(lyrics.Parts) > 0 {
 		_, _ = l.usecases.CreateLyrics(lyrics)

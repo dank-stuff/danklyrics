@@ -25,7 +25,10 @@ func (a *Actions) GetLyricsByPublicId(id string) (models.Lyrics, error) {
 }
 
 func (a *Actions) GetLyricsBySongTitle(title string) ([]models.Lyrics, error) {
-	intLyricses, err := a.repo.GetLyricsBySongTitle(title)
+	findParams := FindLyricsParams{
+		SongTitle: title,
+	}
+	intLyricses, err := a.repo.FindLyricsAll(findParams)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +48,11 @@ func (a *Actions) GetLyricsBySongTitle(title string) ([]models.Lyrics, error) {
 }
 
 func (a *Actions) GetLyricsBySongTitleAndArtistName(title, artistName string) ([]models.Lyrics, error) {
-	intLyricses, err := a.repo.GetLyricsBySongTitleAndArtistName(title, artistName)
+	findParams := FindLyricsParams{
+		SongTitle:  title,
+		ArtistName: artistName,
+	}
+	intLyricses, err := a.repo.FindLyricsAll(findParams)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +72,11 @@ func (a *Actions) GetLyricsBySongTitleAndArtistName(title, artistName string) ([
 }
 
 func (a *Actions) GetLyricsBySongTitleAndAlbumTitle(title, albumTitle string) ([]models.Lyrics, error) {
-	intLyricses, err := a.repo.GetLyricsBySongAndAlbumTitle(title, albumTitle)
+	findParams := FindLyricsParams{
+		SongTitle:  title,
+		AlbumTitle: albumTitle,
+	}
+	intLyricses, err := a.repo.FindLyricsAll(findParams)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +96,12 @@ func (a *Actions) GetLyricsBySongTitleAndAlbumTitle(title, albumTitle string) ([
 }
 
 func (a *Actions) GetLyricsBySongTitleArtistNameAndAlbumTitle(title, artistName, albumTitle string) ([]models.Lyrics, error) {
-	intLyricses, err := a.repo.GetLyricsBySongTitleArtistNameAndAlbumTitle(title, artistName, albumTitle)
+	findParams := FindLyricsParams{
+		SongTitle:  title,
+		ArtistName: artistName,
+		AlbumTitle: albumTitle,
+	}
+	intLyricses, err := a.repo.FindLyricsAll(findParams)
 	if err != nil {
 		return nil, err
 	}
