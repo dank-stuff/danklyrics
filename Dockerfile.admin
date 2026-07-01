@@ -11,6 +11,7 @@ RUN	wget https://unpkg.com/htmx-ext-json-enc@2.0.2/dist/json-enc.min.js -O websi
     go install github.com/a-h/templ/cmd/templ@v0.3.1020
 
 RUN go mod tidy && \
+    templ generate && \
     go build -ldflags="-w -s" -o danklyrics-admin ./cmd/admin/main.go
 
 FROM alpine:latest AS run
