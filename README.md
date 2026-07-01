@@ -7,7 +7,7 @@
   </p>
   <p>
     <a href="https://goreportcard.com/report/codeberg.org/dankstuff/danklyrics"><img alt="rex-deployment" src="https://goreportcard.com/badge/codeberg.org/dankstuff/danklyrics"/></a>
-    <a href="https://godoc.org/codeberg.org/dankstuff/danklyrics"><img alt="rex-deployment" src="https://godoc.org/codeberg.org/dankstuff/danklyrics?status.png"/></a>
+    <a href="https://godoc.org/codeberg.org/dankstuff/danklyrics"><img alt="godoc" src="https://godoc.org/codeberg.org/dankstuff/danklyrics?status.png"/></a>
   </p>
 </div>
 
