@@ -8,8 +8,8 @@ import (
 	"net/url"
 	"strings"
 
-	"codeberg.org/dankstuff/danklyrics/internal/version"
 	"codeberg.org/dankstuff/danklyrics/pkg/errors"
+	"codeberg.org/dankstuff/danklyrics/pkg/version"
 )
 
 // Client is the Genius client that handles all the different API calls to api.genius.com

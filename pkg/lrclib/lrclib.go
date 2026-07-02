@@ -6,8 +6,8 @@ import (
 	"io"
 	"net/http"
 
-	"codeberg.org/dankstuff/danklyrics/internal/version"
 	"codeberg.org/dankstuff/danklyrics/pkg/errors"
+	"codeberg.org/dankstuff/danklyrics/pkg/version"
 )
 
 // Client is the lrclibgo client that handles all the different API calls to lrclib.net/api
