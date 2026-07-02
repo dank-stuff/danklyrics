@@ -12,7 +12,7 @@ import (
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
 
-// Http is the dank lyrics finding client that makes a call to api.danklyrics.com to find the lyrics.
+// Http is the dank lyrics finding client that makes a call to danklyrics.com/api/json to find the lyrics.
 type Http struct {
 	providers        string
 	apiAddress       string
@@ -40,7 +40,7 @@ func NewHttp(c Config) (*Http, error) {
 	}
 
 	if c.ApiAddress == "" {
-		client.apiAddress = "https://api.danklyrics.com"
+		client.apiAddress = "https://danklyrics.com/api/json"
 	} else {
 		client.apiAddress = c.ApiAddress
 	}

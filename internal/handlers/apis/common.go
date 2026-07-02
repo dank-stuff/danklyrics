@@ -1,4 +1,4 @@
-package api
+package apis
 
 const docsLink = "https://codeberg.org/dankstuff/danklyrics"
 

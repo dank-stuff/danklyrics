@@ -22,7 +22,7 @@ func (d *dankProvider) GetSongLyrics(s provider.SearchParams) (models.Lyrics, er
 	req, err := http.NewRequest(
 		http.MethodGet,
 		fmt.Sprintf(
-			"https://api.danklyrics.com/dank/lyrics?song=%s&artist=%s&album=%s",
+			"https://danklyrics.com/api/json/dank/lyrics?song=%s&artist=%s&album=%s",
 			url.QueryEscape(s.SongName), url.QueryEscape(s.ArtistName), url.QueryEscape(s.AlbumName),
 		),
 		http.NoBody)

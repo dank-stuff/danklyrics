@@ -4,11 +4,14 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"net/mail"
+	"strings"
 	"time"
 
 	"codeberg.org/dankstuff/danklyrics/internal/actions"
 	"codeberg.org/dankstuff/danklyrics/internal/config"
 	"codeberg.org/dankstuff/danklyrics/pkg/client"
+	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 	"codeberg.org/dankstuff/danklyrics/website/partials"
 )
@@ -77,31 +80,33 @@ func (a *api) HandleAuthSubmitLyrics(w http.ResponseWriter, r *http.Request) {
 	}
 	err := json.NewDecoder(r.Body).Decode(&reqBody)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("invalid body"))
+		// w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid body"))
 		return
 	}
 
-	err = makeApiPostRequest("/auth", "", reqBody)
+	if _, err := mail.ParseAddress(reqBody.Email); err != nil {
+		// w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid email address"))
+		return
+	}
+
+	err = a.usecases.SendVerificationEmail(reqBody.Email)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Something went wrong"))
 		return
 	}
 }
 
 func (a *api) HandleConfirmAuthSubmitLyrics(w http.ResponseWriter, r *http.Request) {
-	token, tokenExists := r.URL.Query()["token"]
-
-	if !tokenExists {
+	token, ok := r.URL.Query()["token"]
+	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("missing token"))
 		return
 	}
 
-	err := makeApiPostRequest("/auth/confirm", "", map[string]string{
-		"token": token[0],
-	})
+	err := a.usecases.ConfirmAuth(token[0])
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Something went wrong"))
@@ -160,7 +165,12 @@ func (a *api) HandleSubmitLyrics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = makeApiPostRequest("/dank/lyrics", sessionToken.Value, lyrics)
+	err = a.usecases.CreateLyricsRequest(sessionToken.Value, models.Lyrics{
+		SongName:   lyrics.SongName,
+		ArtistName: lyrics.ArtistName,
+		AlbumName:  lyrics.AlbumName,
+		Parts:      strings.Split(lyrics.Plain, "\n"),
+	})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Something went wrong"))

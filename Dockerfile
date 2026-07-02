@@ -11,13 +11,13 @@ RUN	wget https://unpkg.com/htmx-ext-json-enc@2.0.2/dist/json-enc.min.js -O websi
     go install github.com/a-h/templ/cmd/templ@v0.3.1020
 
 RUN templ generate && \
-    go build -ldflags="-w -s" -o danklyrics-web ./cmd/web/main.go
+    go build -ldflags="-w -s" -o danklyrics ./cmd/http/main.go
 
 FROM alpine:latest AS run
 
 WORKDIR /app
-COPY --from=build /app/danklyrics-web .
+COPY --from=build /app/danklyrics .
 
 EXPOSE 8080
 
-CMD ["./danklyrics-web"]
+CMD ["./danklyrics"]

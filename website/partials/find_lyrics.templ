@@ -9,7 +9,7 @@ templ FindLyrics() {
 		_="def findLyrics(song, artist, album)
     set loadingMsgs to ['Wait','Loading','Finding lyrics','Doing the thing','Crunching the numbers','Loading terrain','Just wait','AAAAAAAAAAAAAAAA','Ring dingdong','Ring ding ding ding dingdong'] then
 
-    fetch `/api/lyrics?song=${song}&artist=${artist}&album=${album}`
+    fetch `/api/web/lyrics?song=${song}&artist=${artist}&album=${album}`
     as text
     then put the result into #lyrics-tab.innerHTML
 
@@ -17,8 +17,8 @@ templ FindLyrics() {
 
     call #lyrics.click()
 
-    set apiLink to `https://api.danklyrics.com/lyrics?` then
-    set dankApiLink to `https://api.danklyrics.com/dank/lyrics?` then
+    set apiLink to `https://danklyrics.com/api/json/lyrics?` then
+    set dankApiLink to `https://danklyrics.com/api/json/dank/lyrics?` then
     set searchQuery to `song=${encodeURIComponent(song)}` then
     if artist then
       append `&artist=${encodeURIComponent(artist)}` to searchQuery

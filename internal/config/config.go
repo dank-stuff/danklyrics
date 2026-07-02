@@ -12,7 +12,6 @@ var (
 func init() {
 	_config = config{
 		Port:       getEnv("PORT"),
-		ApiPort:    getEnv("API_PORT"),
 		AdminPort:  getEnv("ADMIN_PORT"),
 		ApiAddress: getEnv("API_ADDRESS"),
 		JwtSecret:  getEnv("JWT_SECRET"),
