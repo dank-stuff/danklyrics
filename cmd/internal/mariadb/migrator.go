@@ -1,7 +1,7 @@
 package mariadb
 
 import (
-	"codeberg.org/dankstuff/danklyrics/internal/models"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/models"
 )
 
 func Migrate() error {

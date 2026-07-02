@@ -1,8 +1,15 @@
 package partials
 
-import "codeberg.org/dankstuff/danklyrics/internal/actions"
+type LyricsRequest struct {
+	Id         uint
+	SongTitle  string
+	ArtistName string
+	AlbumTitle string
+	Parts      []string
+	Synced     map[string]string
+}
 
-templ AdminLyricsRequest(lyrics actions.LyricsRequest) {
+templ AdminLyricsRequest(lyrics LyricsRequest) {
 	<code>
 		for _, part := range lyrics.Parts {
 			{ part }

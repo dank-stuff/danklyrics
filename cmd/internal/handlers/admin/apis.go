@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 	"codeberg.org/dankstuff/danklyrics/website/partials"
 )
 
@@ -61,7 +61,19 @@ func (a *api) HandleListLyricsRequests(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = partials.AdminLyricsRequests(requests).Render(r.Context(), w)
+	vRequests := make([]partials.LyricsRequest, 0, len(requests))
+	for _, request := range requests {
+		vRequests = append(vRequests, partials.LyricsRequest{
+			Id:         request.Id,
+			SongTitle:  request.SongTitle,
+			ArtistName: request.ArtistName,
+			AlbumTitle: request.AlbumTitle,
+			Parts:      request.Parts,
+			Synced:     request.Synced,
+		})
+	}
+
+	err = partials.AdminLyricsRequests(vRequests).Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("excuse me?"))
@@ -91,7 +103,14 @@ func (a *api) HandleGetLyricsRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = partials.AdminLyricsRequest(lyricsRequest).Render(r.Context(), w)
+	err = partials.AdminLyricsRequest(partials.LyricsRequest{
+		Id:         lyricsRequest.Id,
+		SongTitle:  lyricsRequest.SongTitle,
+		ArtistName: lyricsRequest.ArtistName,
+		AlbumTitle: lyricsRequest.AlbumTitle,
+		Parts:      lyricsRequest.Parts,
+		Synced:     lyricsRequest.Synced,
+	}).Render(r.Context(), w)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("excuse me?"))

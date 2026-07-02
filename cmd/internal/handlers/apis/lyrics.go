@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"strings"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 	"codeberg.org/dankstuff/danklyrics/pkg/client"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
-	static "codeberg.org/dankstuff/danklyrics/website/static/user"
+	staticuser "codeberg.org/dankstuff/danklyrics/website/static/user"
 )
 
 type lyricsFinderApi struct {
@@ -26,7 +26,7 @@ func NewLyricsFinderApi(usecases *actions.Actions) *lyricsFinderApi {
 
 func (l *lyricsFinderApi) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	if strings.HasSuffix(r.URL.Path, "favicon.ico") {
-		f, err := static.FS().Open("favicon.ico")
+		f, err := staticuser.FS().Open("favicon.ico")
 		if err != nil {
 			return
 		}

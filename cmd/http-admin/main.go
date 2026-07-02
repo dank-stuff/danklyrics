@@ -4,13 +4,13 @@ import (
 	"log"
 	"net/http"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
-	"codeberg.org/dankstuff/danklyrics/internal/config"
-	"codeberg.org/dankstuff/danklyrics/internal/handlers/admin"
-	"codeberg.org/dankstuff/danklyrics/internal/jwt"
-	"codeberg.org/dankstuff/danklyrics/internal/mailer"
-	"codeberg.org/dankstuff/danklyrics/internal/mariadb"
-	"codeberg.org/dankstuff/danklyrics/internal/sitemap"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/admin"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/jwt"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/mailer"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/mariadb"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/sitemap"
 )
 
 var (

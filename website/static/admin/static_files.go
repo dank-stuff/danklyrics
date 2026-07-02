@@ -1,4 +1,4 @@
-package static
+package staticadmin
 
 import "embed"
 

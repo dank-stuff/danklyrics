@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
-	"codeberg.org/dankstuff/danklyrics/internal/models"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/models"
 
 	"gorm.io/gorm"
 )

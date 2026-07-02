@@ -6,7 +6,7 @@ import (
 	"errors"
 	"net/http"
 
-	"codeberg.org/dankstuff/danklyrics/internal/config"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
 )
 
 func makeApiPostRequest[T any](path, token string, body T) error {

@@ -6,15 +6,15 @@ import (
 	"log"
 	"net/http"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 	viewpages "codeberg.org/dankstuff/danklyrics/website/pages"
-	static "codeberg.org/dankstuff/danklyrics/website/static/admin"
+	staticadmin "codeberg.org/dankstuff/danklyrics/website/static/admin"
 )
 
 var publicFiles embed.FS
 
 func init() {
-	publicFiles = static.FS()
+	publicFiles = staticadmin.FS()
 }
 
 type pages struct {

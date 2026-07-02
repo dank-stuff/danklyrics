@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	intmodels "codeberg.org/dankstuff/danklyrics/internal/models"
+	intmodels "codeberg.org/dankstuff/danklyrics/cmd/internal/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 )
 

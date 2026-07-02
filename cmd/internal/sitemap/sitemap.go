@@ -3,7 +3,7 @@ package sitemap
 import (
 	"sync"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 )
 
 type sitemap struct {

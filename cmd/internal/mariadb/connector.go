@@ -1,8 +1,9 @@
 package mariadb
 
 import (
-	"codeberg.org/dankstuff/danklyrics/internal/config"
 	"fmt"
+
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

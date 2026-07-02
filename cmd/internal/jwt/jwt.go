@@ -3,9 +3,9 @@ package jwt
 import (
 	"time"
 
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
 	"github.com/golang-jwt/jwt/v4"
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
-	"codeberg.org/dankstuff/danklyrics/internal/config"
 )
 
 // Jwt implements JWTManager to verify session tokens

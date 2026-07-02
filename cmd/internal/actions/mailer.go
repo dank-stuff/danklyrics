@@ -1,6 +1,6 @@
 package actions
 
-import "codeberg.org/dankstuff/danklyrics/internal/models"
+import "codeberg.org/dankstuff/danklyrics/cmd/internal/models"
 
 type Mailer interface {
 	SendVerificationEmail(token, email string) error

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/mail"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 )
 
 type authApi struct {

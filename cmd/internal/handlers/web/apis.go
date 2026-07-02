@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
-	"codeberg.org/dankstuff/danklyrics/internal/config"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
 	"codeberg.org/dankstuff/danklyrics/pkg/client"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"

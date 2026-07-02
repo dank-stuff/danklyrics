@@ -7,8 +7,8 @@ import (
 	"html/template"
 	"net/smtp"
 
-	"codeberg.org/dankstuff/danklyrics/internal/config"
-	"codeberg.org/dankstuff/danklyrics/internal/models"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/models"
 )
 
 var (
