@@ -1,12 +1,12 @@
 package client
 
 import (
-	"codeberg.org/dankstuff/danklyrics/internal/providers/dank"
-	"codeberg.org/dankstuff/danklyrics/internal/providers/genius"
-	"codeberg.org/dankstuff/danklyrics/internal/providers/lyricfind"
 	"codeberg.org/dankstuff/danklyrics/pkg/finder"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
+	"codeberg.org/dankstuff/danklyrics/pkg/providers/dank"
+	"codeberg.org/dankstuff/danklyrics/pkg/providers/genius"
+	"codeberg.org/dankstuff/danklyrics/pkg/providers/lyricfind"
 )
 
 // Local is the dank lyrics finding client that uses [finder.Service] to find lyrics using the enabled providers.
