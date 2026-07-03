@@ -2,9 +2,9 @@ module examples
 
 go 1.26.0
 
-replace codeberg.org/dankstuff/danklyrics => ../../
+replace codeberg.org/dankstuff/danklyrics/pkg => ../../pkg
 
-require codeberg.org/dankstuff/danklyrics v0.0.0-00010101000000-000000000000
+require codeberg.org/dankstuff/danklyrics/pkg v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/PuerkitoBio/goquery v1.12.0 // indirect
@@ -19,8 +19,9 @@ require (
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
-	golang.org/x/net v0.52.0 // indirect
+	golang.org/x/net v0.56.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.26.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
