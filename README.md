@@ -22,6 +22,10 @@ DankLyrics provides a Go package, since the project is written in Go lol.
 Here's a sample usage, it's pretty straight forward, as the client only has one
 method :)
 
+```sh
+go get codeberg.org/dankstuff/danklyrics/pkg
+```
+
 ```go
 package main
 
