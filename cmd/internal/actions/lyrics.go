@@ -44,6 +44,9 @@ func (a *Actions) FindLyrics(search FindLyricsParams) ([]models.Lyrics, error) {
 			return nil, err
 		}
 	}
+	if len(intLyricses) == 0 {
+		return nil, &ErrNoResultsFound{}
+	}
 
 	lyricses := make([]models.Lyrics, 0, len(intLyricses))
 	for _, intLyrics := range intLyricses {
@@ -73,8 +76,7 @@ func (a *Actions) FindLyricsProvider(params FindLyricsProviderParams) ([]models.
 		ArtistName: params.ArtistName,
 		AlbumTitle: params.AlbumTitle,
 	})
-
-	if len(lyricses) > 0 {
+	if len(lyricses) > 0 && err == nil {
 		return lyricses, nil
 	}
 
@@ -91,7 +93,7 @@ func (a *Actions) FindLyricsProvider(params FindLyricsProviderParams) ([]models.
 	if err != nil {
 		return nil, err
 	}
-	if len(lyricses) == 0 && len(lyrics.Parts) > 0 {
+	if len(lyrics.Parts) > 0 {
 		_, _ = a.CreateLyrics(lyrics)
 	}
 

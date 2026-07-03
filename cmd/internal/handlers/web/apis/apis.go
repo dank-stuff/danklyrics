@@ -37,41 +37,43 @@ func New(usecases *actions.Actions) *api {
 }
 
 func (a *api) HandleGetSongLyrics(w http.ResponseWriter, r *http.Request) {
-	artistName, okArtist := r.URL.Query()["artist"]
-	albumName, okAlbum := r.URL.Query()["album"]
-	songName, okSong := r.URL.Query()["song"]
+	artistName := r.URL.Query().Get("artist")
+	albumTitle := r.URL.Query().Get("album")
+	songTitle := r.URL.Query().Get("song")
 
-	if !okArtist && !okAlbum && !okSong {
+	if artistName == "" && albumTitle == "" && songTitle == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("missing all query parameters `artist`, `album` and `song`"))
 		return
 	}
 
-	if !okSong {
+	if songTitle == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("missing required query parameter `song`"))
 		return
 	}
 
-	searchInput := provider.SearchParams{
-		SongName: songName[0],
-	}
-	if okAlbum {
-		searchInput.AlbumName = albumName[0]
-	}
-	if okArtist {
-		searchInput.ArtistName = artistName[0]
+	searchInput := actions.FindLyricsProviderParams{
+		SongTitle:  songTitle,
+		AlbumTitle: albumTitle,
+		ArtistName: artistName,
+		Lyricser:   a.lyricser,
 	}
 
-	lyricsText, err := a.lyricser.GetSongLyrics(searchInput)
+	lyrics, err := a.usecases.FindLyricsProvider(searchInput)
 	if err != nil {
 		log.Println("oppsie doopsie some shit happened", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Internal server error"))
+		return
+	}
+	if len(lyrics) == 0 {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("No results were found"))
 		return
 	}
 
-	partials.SingleLyrics(lyricsText).Render(r.Context(), w)
+	partials.SingleLyrics(lyrics[0]).Render(r.Context(), w)
 }
 
 func (a *api) HandleAuthSubmitLyrics(w http.ResponseWriter, r *http.Request) {
@@ -80,13 +82,11 @@ func (a *api) HandleAuthSubmitLyrics(w http.ResponseWriter, r *http.Request) {
 	}
 	err := json.NewDecoder(r.Body).Decode(&reqBody)
 	if err != nil {
-		// w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Invalid body"))
 		return
 	}
 
 	if _, err := mail.ParseAddress(reqBody.Email); err != nil {
-		// w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Invalid email address"))
 		return
 	}

@@ -2,11 +2,11 @@ package dank
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
 
+	"codeberg.org/dankstuff/danklyrics/pkg/errors"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
@@ -22,7 +22,7 @@ func (d *dankProvider) GetSongLyrics(s provider.SearchParams) (models.Lyrics, er
 	req, err := http.NewRequest(
 		http.MethodGet,
 		fmt.Sprintf(
-			"https://danklyrics.com/api/json/dank/lyrics?song=%s&artist=%s&album=%s",
+			"https://danklyrics.com/api/json/lyrics?song=%s&artist=%s&album=%s",
 			url.QueryEscape(s.SongName), url.QueryEscape(s.ArtistName), url.QueryEscape(s.AlbumName),
 		),
 		http.NoBody)
@@ -35,7 +35,7 @@ func (d *dankProvider) GetSongLyrics(s provider.SearchParams) (models.Lyrics, er
 		return models.Lyrics{}, err
 	}
 	if resp.StatusCode != 200 {
-		return models.Lyrics{}, errors.New("no results were found")
+		return models.Lyrics{}, &errors.ErrNotFound{}
 	}
 
 	var lyrics []models.Lyrics
@@ -46,7 +46,7 @@ func (d *dankProvider) GetSongLyrics(s provider.SearchParams) (models.Lyrics, er
 	_ = resp.Body.Close()
 
 	if len(lyrics) == 0 {
-		return models.Lyrics{}, errors.New("no results were found")
+		return models.Lyrics{}, &errors.ErrNotFound{}
 	}
 
 	return lyrics[0], nil

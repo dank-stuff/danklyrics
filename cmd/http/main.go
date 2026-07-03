@@ -78,13 +78,12 @@ func main() {
 	///
 
 	lyricsApi := apis.NewLyricsFinderApi(usecases)
-	dankLyricsApi := apis.NewDankLyricsApi(usecases)
 
 	v1ApiHandler := http.NewServeMux()
 	v1ApiHandler.HandleFunc("/", lyricsApi.HandleIndex)
 	v1ApiHandler.HandleFunc("GET /providers", lyricsApi.HandleListProviders)
+	v1ApiHandler.HandleFunc("GET /lyrics/provider", lyricsApi.HandleGetSongLyricsUsingProvider)
 	v1ApiHandler.HandleFunc("GET /lyrics", lyricsApi.HandleGetSongLyrics)
-	v1ApiHandler.HandleFunc("GET /dank/lyrics", dankLyricsApi.HandleGetSongLyrics)
 
 	///
 	/// PAGES

@@ -8,6 +8,12 @@ func (e *ErrNotFound) Error() string {
 	return "not found"
 }
 
+type ErrMissingProvider struct{}
+
+func (e *ErrMissingProvider) Error() string {
+	return "must specify at least one lyrics provider"
+}
+
 type ErrApiError struct {
 	StatusCode int
 	Message    string

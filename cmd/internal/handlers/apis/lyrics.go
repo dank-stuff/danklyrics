@@ -48,7 +48,7 @@ func (l *lyricsFinderApi) HandleListProviders(w http.ResponseWriter, r *http.Req
 	})
 }
 
-func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Request) {
+func (l *lyricsFinderApi) HandleGetSongLyricsUsingProvider(w http.ResponseWriter, r *http.Request) {
 	providers := r.URL.Query()["providers"]
 
 	searchQuery, okSearchQuery := r.URL.Query()["q"]
@@ -119,6 +119,57 @@ func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Req
 	lyricses, err := l.usecases.FindLyricsProvider(searchInput)
 	if err != nil {
 		log.Println("oppsie doopsie some shit happened", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(errorResponse{
+			Message: "No results were found",
+		})
+		return
+	}
+
+	_ = json.NewEncoder(w).Encode(lyricses[0])
+}
+
+func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Request) {
+	artistName := r.URL.Query().Get("artist")
+	albumTitle := r.URL.Query().Get("album")
+	songTile := r.URL.Query().Get("song")
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if songTile == "" && albumTitle == "" && artistName == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(errorResponse{
+			Message:  "Missing all query parameters `artist`, `album` and `song`",
+			DocsLink: docsLink,
+		})
+		return
+	}
+
+	if songTile == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(errorResponse{
+			Message:  "Missing required query parameter `song`",
+			DocsLink: docsLink,
+		})
+		return
+	}
+
+	lyricses, err := l.usecases.FindLyrics(actions.FindLyricsParams{
+		SongTitle:  songTile,
+		ArtistName: artistName,
+		AlbumTitle: albumTitle,
+	})
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(errorResponse{
+			Message:         "Something went wrong",
+			SuggestedAction: "Check the docs, or contact admin (baraa@dankstuff.net)",
+			DocsLink:        docsLink,
+		})
+		return
+	}
+
+	if len(lyricses) == 0 {
 		w.WriteHeader(http.StatusInternalServerError)
 		_ = json.NewEncoder(w).Encode(errorResponse{
 			Message: "No results were found",

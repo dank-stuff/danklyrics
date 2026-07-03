@@ -17,8 +17,8 @@ templ FindLyrics() {
 
     call #lyrics.click()
 
-    set apiLink to `https://danklyrics.com/api/json/lyrics?` then
-    set dankApiLink to `https://danklyrics.com/api/json/dank/lyrics?` then
+    set apiLink to `https://danklyrics.com/api/json/lyrics/provider?` then
+    set dankApiLink to `https://danklyrics.com/api/json/lyrics?` then
     set searchQuery to `song=${encodeURIComponent(song)}` then
     if artist then
       append `&artist=${encodeURIComponent(artist)}` to searchQuery
