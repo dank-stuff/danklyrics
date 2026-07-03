@@ -95,7 +95,7 @@ func (r *repository) GetLyricsByPublicId(id string) (models.Lyrics, error) {
 	return lyrics, nil
 }
 
-func (r *repository) FindLyricsExact(search actions.FindLyricsParams) ([]models.Lyrics, error) {
+func (r *repository) FindLyricsExact(search actions.FindLyricsArgs) ([]models.Lyrics, error) {
 	whereClause := []string{"LOWER(song_title) LIKE LOWER(?)"}
 	whereArgs := []any{likeArg(search.SongTitle)}
 
@@ -146,7 +146,7 @@ var innodbStopwords = map[string]struct{}{
 	"where": struct{}{}, "who": struct{}{}, "will": struct{}{}, "with": struct{}{}, "und": struct{}{}, "www": struct{}{},
 }
 
-func (r *repository) FindLyricsAll(search actions.FindLyricsParams) ([]models.Lyrics, error) {
+func (r *repository) FindLyricsAll(search actions.FindLyricsArgs) ([]models.Lyrics, error) {
 	searchWords := make([]string, 0)
 	for _, word := range []string{
 		search.SongTitle,

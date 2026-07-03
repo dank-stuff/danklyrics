@@ -25,7 +25,7 @@ func (s *sitemap) GetLyricsEntries() ([]actions.SitemapUrl, error) {
 	return s.entries, nil
 }
 
-func (s *sitemap) StoreLyricsesEntries(entries []actions.SitemapUrl) error {
+func (s *sitemap) SetLyricsesEntries(entries []actions.SitemapUrl) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.entries = entries

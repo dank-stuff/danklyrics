@@ -10,7 +10,6 @@ import (
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 	staticuser "codeberg.org/dankstuff/danklyrics/cmd/website/static/user"
 	"codeberg.org/dankstuff/danklyrics/pkg/client"
-	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
 
@@ -87,48 +86,18 @@ func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	searchInput := provider.SearchParams{}
+	searchInput := actions.FindLyricsProviderParams{}
 	if okSong {
-		searchInput.SongName = songName[0]
+		searchInput.SongTitle = songName[0]
 	}
 	if okAlbum {
-		searchInput.AlbumName = albumName[0]
+		searchInput.AlbumTitle = albumName[0]
 	}
 	if okArtist {
 		searchInput.ArtistName = artistName[0]
 	}
 	if okSearchQuery {
 		searchInput.Query = searchQuery[0]
-	}
-
-	var lyricses []models.Lyrics
-	var err error
-	switch {
-	case !okArtist && !okAlbum && okSong:
-		lyricses, _ = l.usecases.GetLyricsBySongTitle(songName[0])
-		if err != nil {
-			break
-		}
-	case okArtist && !okAlbum && okSong:
-		lyricses, _ = l.usecases.GetLyricsBySongTitleAndArtistName(songName[0], artistName[0])
-		if err != nil {
-			break
-		}
-	case !okArtist && okAlbum && okSong:
-		lyricses, _ = l.usecases.GetLyricsBySongTitleAndArtistName(songName[0], albumName[0])
-		if err != nil {
-			break
-		}
-	case okArtist && okAlbum && okSong:
-		lyricses, _ = l.usecases.GetLyricsBySongTitleArtistNameAndAlbumTitle(songName[0], artistName[0], albumName[0])
-		if err != nil {
-			break
-		}
-	}
-
-	if len(lyricses) > 0 {
-		_ = json.NewEncoder(w).Encode(lyricses[0])
-		return
 	}
 
 	providersConfig := make([]provider.Name, 0, len(providers))
@@ -141,18 +110,13 @@ func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Req
 		providersAuth[provider.Name(p)] = provider.AuthFromHttpHeaders(provider.Name(p), r.Header)
 	}
 
-	lyricser, err := client.New(client.Config{
+	var err error
+	searchInput.Lyricser, err = client.New(client.Config{
 		Providers:     providersConfig,
 		ProvidersAuth: providersAuth,
 	})
 
-	if err != nil || lyricser == nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		_ = json.NewEncoder(w).Encode(errorResponse{
-			Message: "No results were found",
-		})
-	}
-	lyrics, err := lyricser.GetSongLyrics(searchInput)
+	lyricses, err := l.usecases.FindLyricsProvider(searchInput)
 	if err != nil {
 		log.Println("oppsie doopsie some shit happened", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -161,9 +125,6 @@ func (l *lyricsFinderApi) HandleGetSongLyrics(w http.ResponseWriter, r *http.Req
 		})
 		return
 	}
-	if len(lyricses) == 0 && len(lyrics.Parts) > 0 {
-		_, _ = l.usecases.CreateLyrics(lyrics)
-	}
 
-	_ = json.NewEncoder(w).Encode(lyrics)
+	_ = json.NewEncoder(w).Encode(lyricses[0])
 }

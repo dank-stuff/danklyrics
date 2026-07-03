@@ -45,7 +45,7 @@ func (s *staticHandler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Cache-Control", "max-age=300")
+	w.Header().Set("Cache-Control", "max-age=60")
 	w.Header().Set("Content-Type", "application/xml")
 
 	t := template.Must(template.ParseFS(sitemapTemplate, "sitemap_template.xml"))

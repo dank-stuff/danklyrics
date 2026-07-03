@@ -7,7 +7,7 @@ import (
 
 type Sitemap interface {
 	GetLyricsEntries() ([]SitemapUrl, error)
-	StoreLyricsesEntries(entries []SitemapUrl) error
+	SetLyricsesEntries(entries []SitemapUrl) error
 	AddLyricsEntry(entry SitemapUrl) error
 }
 
@@ -31,7 +31,7 @@ func (a *Actions) LoadLyricsPublicIds() error {
 		})
 	}
 
-	err = a.sitemap.StoreLyricsesEntries(entries)
+	err = a.sitemap.SetLyricsesEntries(entries)
 	if err != nil {
 		return err
 	}

@@ -1,8 +1,10 @@
 package actions
 
-import "codeberg.org/dankstuff/danklyrics/cmd/internal/models"
+import (
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/models"
+)
 
-type FindLyricsParams struct {
+type FindLyricsArgs struct {
 	SongTitle  string
 	ArtistName string
 	AlbumTitle string
@@ -12,8 +14,8 @@ type Repository interface {
 	CreateLyrics(l models.Lyrics) (models.Lyrics, error)
 	GetLyricsByPublicId(id string) (models.Lyrics, error)
 
-	FindLyricsExact(search FindLyricsParams) ([]models.Lyrics, error)
-	FindLyricsAll(search FindLyricsParams) ([]models.Lyrics, error)
+	FindLyricsExact(search FindLyricsArgs) ([]models.Lyrics, error)
+	FindLyricsAll(search FindLyricsArgs) ([]models.Lyrics, error)
 
 	GetLyricses(page int) ([]models.Lyrics, error)
 
