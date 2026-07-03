@@ -1,5 +1,7 @@
-codeberg.org/dankstuff/danklyrics/pkg v0.4.3 h1:66d86gpIycrtJIfJIBlNgWQRfP04WHx8aT946+Fd2NY=
-codeberg.org/dankstuff/danklyrics/pkg v0.4.3/go.mod h1:PzRZRAFuUfhfUesEuc7bO5n9Z+xS1awidUrLodZW8Gk=
+codeberg.org/dankstuff/danklyrics/pkg v0.4.31 h1:d7touG6zOH2ERha5Oyic4k5J9D9h7PajX9Qkr6GS1nM=
+codeberg.org/dankstuff/danklyrics/pkg v0.4.31/go.mod h1:5RLSl3asjdX2FOT6k+pHAa2X9BtdsIIwf18WbGmWWWU=
+codeberg.org/dankstuff/danklyrics/pkg v0.4.32 h1:UFx1rDj27/yvGVvmhAL8O1CLS3SpWGNzOp46XK8CHiE=
+codeberg.org/dankstuff/danklyrics/pkg v0.4.32/go.mod h1:PzRZRAFuUfhfUesEuc7bO5n9Z+xS1awidUrLodZW8Gk=
 filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
 github.com/PuerkitoBio/goquery v1.12.0 h1:pAcL4g3WRXekcB9AU/y1mbKez2dbY2AajVhtkO8RIBo=
