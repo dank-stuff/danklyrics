@@ -1,28 +1,31 @@
 services:
-  danklyrics-web:
-    container_name: "danklyrics-web"
-    build:
-      context: .
+  db:
+    container_name: "danklyrics-db"
+    image: "mariadb:11.8"
     restart: "always"
     ports:
-      - "20420:8080"
+      - "3306:3306"
     stdin_open: true
-    env_file: .env.docker
-    networks:
-      - danklyricsnetwork
+    environment:
+      MARIADB_ROOT_PASSWORD: "previetcomrade"
+      MARIADB_DATABASE: "danklyricsdb"
+    env_file:
+      - .env.docker
+    volumes:
+      - dank-db-config:/etc/mysql
+      - dank-db-data:/var/lib/mysql
 
-  danklyrics-admin:
-    container_name: "danklyrics-admin"
-    build:
-      context: .
-      dockerfile: Dockerfile.admin
-    restart: "always"
-    ports:
-      - "20419:8081"
-    stdin_open: true
-    env_file: .env.docker
-    networks:
-      - danklyricsnetwork
+volumes:
+  dank-db-config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./.db/etc
 
-networks:
-  danklyricsnetwork: {}
+  dank-db-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./.db/var
