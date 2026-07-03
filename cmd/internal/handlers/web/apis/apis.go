@@ -1,4 +1,4 @@
-package web
+package webapis
 
 import (
 	"encoding/json"
@@ -21,7 +21,7 @@ type api struct {
 	lyricser *client.Http
 }
 
-func NewApi(usecases *actions.Actions) *api {
+func New(usecases *actions.Actions) *api {
 	lyricser, err := client.NewHttp(client.Config{
 		Providers:  []provider.Name{provider.Dank, provider.LyricFind},
 		ApiAddress: config.Env().ApiAddress,

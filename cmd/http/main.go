@@ -11,7 +11,7 @@ import (
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/middlewares/contenttype"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/middlewares/ismobile"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/middlewares/version"
-	"codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/web"
+	webapis "codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/web/apis"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/web/pages"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/handlers/web/static"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/jwt"
@@ -94,7 +94,7 @@ func main() {
 	/// WEB APIS
 	///
 
-	webApis := web.NewApi(usecases)
+	webApis := webapis.New(usecases)
 
 	webApisHandler := http.NewServeMux()
 	webApisHandler.HandleFunc("GET /lyrics", webApis.HandleGetSongLyrics)
