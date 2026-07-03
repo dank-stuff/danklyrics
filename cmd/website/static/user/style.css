@@ -171,6 +171,28 @@ main {
   user-select: text !important;
 }
 
+#loading-bar {
+  width: 100%;
+  overflow: hidden;
+}
+
+#loading-bar-content {
+  animation: fillProgress 3s linear infinite;
+}
+
+@keyframes fillProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
 .gh {
   width: 25px;
   height: 25px;

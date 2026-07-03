@@ -8,8 +8,8 @@ _*/
 tmp/
 Session.vim
 .db/
-website/static/admin/htmx/*.js
-website/static/user/htmx/*.js
+cmd/website/static/admin/htmx/*.js
+cmd/website/static/user/htmx/*.js
 *_templ.go
 *_templ.txt
 docker-compose-prod.yml

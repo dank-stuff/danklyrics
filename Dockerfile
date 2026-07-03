@@ -8,6 +8,7 @@ RUN apk add --no-cache wget git
 RUN	wget https://unpkg.com/htmx-ext-json-enc@2.0.2/dist/json-enc.min.js -O cmd/website/static/user/htmx/json-enc.js &&\
 	wget https://unpkg.com/hyperscript.org@0.9.14/dist/_hyperscript.min.js -O cmd/website/static/user/htmx/hyperscript.min.js &&\
 	wget https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js -O cmd/website/static/user/htmx/htmx.min.js && \
+    wget https://unpkg.com/htmx-ext-loading-states@2.0.1/dist/loading-states.min.js -O cmd/website/static/user/htmx/loading-states.js && \
     go install github.com/a-h/templ/cmd/templ@v0.3.1020
 
 RUN templ generate && \

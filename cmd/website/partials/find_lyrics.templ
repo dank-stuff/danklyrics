@@ -7,13 +7,13 @@ templ FindLyrics() {
 		id="dank-form"
 		class="dank-form"
 		_="def findLyrics(song, artist, album)
-    set loadingMsgs to ['Wait','Loading','Finding lyrics','Doing the thing','Crunching the numbers','Loading terrain','Just wait','AAAAAAAAAAAAAAAA','Ring dingdong','Ring ding ding ding dingdong'] then
+    remove .hidden from #loading-bar
 
     fetch `/api/web/lyrics?song=${song}&artist=${artist}&album=${album}`
     as text
     then put the result into #lyrics-tab.innerHTML
 
-    put loadingMsgs[Math.floor(Math.random() * loadingMsgs.length)] into #dank-lyrics-content.innerText
+    add .hidden to #loading-bar
 
     call #lyrics.click()
 
@@ -98,6 +98,9 @@ end
 			type="submit"
 			value="Find"
 		/>
+		<div id="loading-bar" class="cs-progress-bar hidden">
+			<div id="loading-bar-content" style="width: 0%" class="bars"></div>
+		</div>
 		<div class="cs-tabs">
 			<input
 				class="radiotab"

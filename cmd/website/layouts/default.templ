@@ -78,9 +78,12 @@ templ Default(props types.PageProps, content templ.Component) {
 			}
 			<script src="/static/htmx/htmx.min.js"></script>
 			<script defer src="/static/htmx/json-enc.js"></script>
+			<script defer src="/static/htmx/loading-states.js"></script>
 			<script defer src="/static/htmx/hyperscript.min.js"></script>
 		</head>
-		<body>
+		<body
+			hx-ext="loading-states"
+		>
 			@partials.Header()
 			<hr class="cs-hr"/>
 			<main>
