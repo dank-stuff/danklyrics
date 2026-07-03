@@ -1,8 +1,11 @@
 package partials
 
-import "fmt"
+import (
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	"fmt"
+)
 
-templ AdminLyricsRequests(reqs []LyricsRequest) {
+templ AdminLyricsRequests(reqs []actions.LyricsRequest) {
 	<div class="lyrics-requests">
 		for _, req := range reqs {
 			<div id={ fmt.Sprintf("lyrics-request-%d", req.Id) } style="background-color: #3e4637">
