@@ -12,3 +12,5 @@ website/static/admin/htmx/*.js
 website/static/user/htmx/*.js
 *_templ.go
 *_templ.txt
+docker-compose-prod.yml
+docker-compose-beta.yml
