@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"strings"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	"codeberg.org/dankstuff/danklyrics/cmd/website/layouts"
+	"codeberg.org/dankstuff/danklyrics/cmd/website/partials"
+	"codeberg.org/dankstuff/danklyrics/cmd/website/types"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
-	"codeberg.org/dankstuff/danklyrics/website/layouts"
-	"codeberg.org/dankstuff/danklyrics/website/partials"
-	"codeberg.org/dankstuff/danklyrics/website/types"
 
 	"github.com/a-h/templ"
 )

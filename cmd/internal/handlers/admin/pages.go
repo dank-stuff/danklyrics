@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
-	viewpages "codeberg.org/dankstuff/danklyrics/website/pages"
-	staticadmin "codeberg.org/dankstuff/danklyrics/website/static/admin"
+	viewpages "codeberg.org/dankstuff/danklyrics/cmd/website/pages"
+	staticadmin "codeberg.org/dankstuff/danklyrics/cmd/website/static/admin"
 )
 
 var publicFiles embed.FS

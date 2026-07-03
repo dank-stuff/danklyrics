@@ -10,10 +10,10 @@ import (
 
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
+	"codeberg.org/dankstuff/danklyrics/cmd/website/partials"
 	"codeberg.org/dankstuff/danklyrics/pkg/client"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
-	"codeberg.org/dankstuff/danklyrics/website/partials"
 )
 
 type api struct {

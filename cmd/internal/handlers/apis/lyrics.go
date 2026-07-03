@@ -8,10 +8,10 @@ import (
 	"strings"
 
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	staticuser "codeberg.org/dankstuff/danklyrics/cmd/website/static/user"
 	"codeberg.org/dankstuff/danklyrics/pkg/client"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
-	staticuser "codeberg.org/dankstuff/danklyrics/website/static/user"
 )
 
 type lyricsFinderApi struct {

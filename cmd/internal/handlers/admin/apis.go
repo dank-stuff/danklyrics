@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
-	"codeberg.org/dankstuff/danklyrics/website/partials"
+	"codeberg.org/dankstuff/danklyrics/cmd/website/partials"
 )
 
 type api struct {

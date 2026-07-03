@@ -6,8 +6,8 @@ import (
 	"strings"
 	"text/template"
 
-	"codeberg.org/dankstuff/danklyrics/internal/actions"
-	static "codeberg.org/dankstuff/danklyrics/website/static/user"
+	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
+	static "codeberg.org/dankstuff/danklyrics/cmd/website/static/user"
 	"github.com/tdewolff/minify/v2"
 )
 
