@@ -12,7 +12,7 @@ import (
 	"codeberg.org/dankstuff/danklyrics/pkg/provider"
 )
 
-// Http is the dank lyrics finding client that makes a call to danklyrics.com/api/json to find the lyrics.
+// Http is the dank lyrics finding client that makes a call to danklyrics.com/api to find the lyrics.
 type Http struct {
 	providers        string
 	apiAddress       string
@@ -40,7 +40,7 @@ func NewHttp(c Config) (*Http, error) {
 	}
 
 	if c.ApiAddress == "" {
-		client.apiAddress = "https://danklyrics.com/api/json"
+		client.apiAddress = "https://danklyrics.com/api"
 	} else {
 		client.apiAddress = c.ApiAddress
 	}
@@ -56,7 +56,7 @@ func (c *Http) GetSongLyrics(s provider.SearchParams) (models.Lyrics, error) {
 	req, err := http.NewRequest(
 		http.MethodGet,
 		fmt.Sprintf(
-			"%s/lyrics/provider?%s&q=%s&song=%s&artist=%s&album=%s",
+			"%s/lyrics/providers?%s&q=%s&song=%s&artist=%s&album=%s",
 			c.apiAddress, c.providers, url.QueryEscape(s.Query), url.QueryEscape(s.SongName), url.QueryEscape(s.ArtistName), url.QueryEscape(s.AlbumName),
 		),
 		http.NoBody)

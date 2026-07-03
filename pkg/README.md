@@ -65,7 +65,7 @@ func main() {
 
 # REST API Docs
 
-_Rest API is available at [danklyrics.com/api/json](https://danklyrics.com/api/json)_
+_Rest API is available at [danklyrics.com/api](https://danklyrics.com/api)_
 
 - **`GET /`**:
 
@@ -88,7 +88,7 @@ _Returns a list of the current supported lyrics providers_
 ]
 ```
 
-- **`GET /lyrics`**:
+- **`GET /api/lyrics/providers`**:
 
 _Finds lyrics for a song using the specified providers_
 
@@ -108,7 +108,7 @@ Query parameters
 }
 ```
 
-- **`GET /api/json/dank/lyrics`**:
+- **`GET /api/lyrics`**:
 
 _Find lyrics from DankLyrics' database, equivalent to using the Go client with
 `provider.Dank` set_

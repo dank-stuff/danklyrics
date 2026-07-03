@@ -82,7 +82,7 @@ func main() {
 	v1ApiHandler := http.NewServeMux()
 	v1ApiHandler.HandleFunc("/", lyricsApi.HandleIndex)
 	v1ApiHandler.HandleFunc("GET /providers", lyricsApi.HandleListProviders)
-	v1ApiHandler.HandleFunc("GET /lyrics/provider", lyricsApi.HandleGetSongLyricsUsingProvider)
+	v1ApiHandler.HandleFunc("GET /lyrics/providers", lyricsApi.HandleGetSongLyricsUsingProvider)
 	v1ApiHandler.HandleFunc("GET /lyrics", lyricsApi.HandleGetSongLyrics)
 
 	///
@@ -118,7 +118,7 @@ func main() {
 	applicationHandler := http.NewServeMux()
 
 	applicationHandler.Handle("/", version.Handler(ismobile.Handler(contenttype.Html(pagesHandler))))
-	applicationHandler.Handle("/api/json/", contenttype.Json(http.StripPrefix("/api/json", v1ApiHandler)))
+	applicationHandler.Handle("/api/", contenttype.Json(http.StripPrefix("/api", v1ApiHandler)))
 	applicationHandler.Handle("/api/web/", ismobile.Handler(http.StripPrefix("/api/web", webApisHandler)))
 
 	///
