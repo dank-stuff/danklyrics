@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"time"
 
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/config"
@@ -55,14 +56,23 @@ func init() {
 	jwtUtil := jwt.New[actions.TokenPayload]()
 	sm := sitemap.New()
 	usecases = actions.New(repo, mailUtil, jwtUtil, sm)
-
-	err = usecases.LoadLyricsPublicIds()
-	if err != nil {
-		log.Panicln(err)
-	}
 }
 
 func main() {
+	///
+	/// Sitemap updater
+	///
+
+	timer := time.NewTicker(time.Second * 61) // 1s more than public cache
+	go func() {
+		for range timer.C {
+			err := usecases.LoadLyricsPublicIds()
+			if err != nil {
+				log.Printf("failed to load lyricses public ids, error: %v\n", err)
+			}
+		}
+	}()
+
 	///
 	/// REST APIS
 	///
