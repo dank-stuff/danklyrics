@@ -12,8 +12,8 @@ type Sitemap interface {
 }
 
 type SitemapUrl struct {
-	PublicId string `json:"public_id"`
-	AddedAt  string `json:"added_at"`
+	PublicId string    `json:"public_id"`
+	LastMod  time.Time `json:"last_mod"`
 }
 
 func (a *Actions) LoadLyricsPublicIds() error {
@@ -27,7 +27,7 @@ func (a *Actions) LoadLyricsPublicIds() error {
 	for _, lyrics := range lyrices {
 		entries = append(entries, SitemapUrl{
 			PublicId: lyrics.PublicId,
-			AddedAt:  lyrics.CreatedAt.Format(time.RFC3339),
+			LastMod:  lyrics.CreatedAt,
 		})
 	}
 

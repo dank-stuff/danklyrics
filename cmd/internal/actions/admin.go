@@ -124,11 +124,6 @@ func (a *Actions) ApproveLyricsRequest(adminToken string, id uint) error {
 		return err
 	}
 
-	_ = a.sitemap.AddLyricsEntry(SitemapUrl{
-		PublicId: lyrics.PublicId,
-		AddedAt:  lyrics.CreatedAt.Format(time.RFC3339),
-	})
-
 	err = a.repo.DeleteLyricsRequest(id)
 	if err != nil {
 		return err

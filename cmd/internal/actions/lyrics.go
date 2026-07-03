@@ -2,7 +2,6 @@ package actions
 
 import (
 	"errors"
-	"time"
 
 	intmodels "codeberg.org/dankstuff/danklyrics/cmd/internal/models"
 	"codeberg.org/dankstuff/danklyrics/pkg/models"
@@ -119,7 +118,7 @@ func (a *Actions) CreateLyrics(l models.Lyrics) (models.Lyrics, error) {
 
 	_ = a.sitemap.AddLyricsEntry(SitemapUrl{
 		PublicId: newLyrics.PublicId,
-		AddedAt:  newLyrics.CreatedAt.Format(time.RFC3339),
+		LastMod:  newLyrics.CreatedAt,
 	})
 
 	return models.Lyrics{}, nil

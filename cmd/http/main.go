@@ -63,7 +63,7 @@ func main() {
 	/// Sitemap updater
 	///
 
-	timer := time.NewTicker(time.Second * 61) // 1s more than public cache
+	timer := time.NewTicker(time.Second * 30)
 	go func() {
 		for range timer.C {
 			err := usecases.LoadLyricsPublicIds()

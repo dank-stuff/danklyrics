@@ -10,7 +10,6 @@ import (
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/jwt"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/mailer"
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/mariadb"
-	"codeberg.org/dankstuff/danklyrics/cmd/internal/sitemap"
 )
 
 var (
@@ -30,8 +29,7 @@ func init() {
 
 	mailUtil := mailer.New()
 	jwtUtil := jwt.New[actions.TokenPayload]()
-	sm := sitemap.New()
-	usecases = actions.New(repo, mailUtil, jwtUtil, sm)
+	usecases = actions.New(repo, mailUtil, jwtUtil, nil)
 }
 
 func main() {

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 	"text/template"
+	"time"
 
 	"codeberg.org/dankstuff/danklyrics/cmd/internal/actions"
 	static "codeberg.org/dankstuff/danklyrics/cmd/website/static/user"
@@ -38,6 +39,11 @@ func (s *staticHandler) HandleRobots(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(robotsFile)
 }
 
+type sitemapValue struct {
+	PublicId string
+	LastMod  string
+}
+
 func (s *staticHandler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 	sitemapEntries, err := s.usecases.GetSitemap()
 	if err != nil {
@@ -45,11 +51,19 @@ func (s *staticHandler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Cache-Control", "max-age=60")
+	w.Header().Set("Cache-Control", "public, max-age=15")
 	w.Header().Set("Content-Type", "application/xml")
 
+	sitemapValues := make([]sitemapValue, 0, len(sitemapEntries))
+	for _, entry := range sitemapEntries {
+		sitemapValues = append(sitemapValues, sitemapValue{
+			PublicId: entry.PublicId,
+			LastMod:  entry.LastMod.UTC().Format(time.RFC3339),
+		})
+	}
+
 	t := template.Must(template.ParseFS(sitemapTemplate, "sitemap_template.xml"))
-	err = t.Execute(w, sitemapEntries)
+	err = t.Execute(w, sitemapValues)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
