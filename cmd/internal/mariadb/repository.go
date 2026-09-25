@@ -179,15 +179,11 @@ func (r *repository) FindLyricsAll(search actions.FindLyricsArgs) ([]models.Lyri
 	}
 	ftsBooleanQuery := strings.TrimSpace(booleanQuery.String())
 
-	whereClause := `MATCH(song_title, artist_name, album_title) AGAINST(? IN BOOLEAN MODE) OR
-	LOWER(song_title) LIKE LOWER(?)`
+	whereClause := `MATCH(song_title, artist_name, album_title) AGAINST(? IN BOOLEAN MODE)`
 	whereArgs := []any{
 		ftsBooleanQuery,
 		likeArg(search.SongTitle),
 	}
-
-	// log.Printf("WHERE: `%s`\n", strings.Replace(whereClause, "?", "'"+ftsBooleanQuery+"'", 1))
-	// log.Printf("search: %+v\n", search)
 
 	lyricses := make([]models.Lyrics, 0)
 	err := tryWrapDbError(
