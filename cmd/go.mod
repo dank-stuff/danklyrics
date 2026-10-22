@@ -1,6 +1,6 @@
 module codeberg.org/dankstuff/danklyrics/cmd
 
-go 1.26.0
+go 1.27.3
 
 require (
 	codeberg.org/dankstuff/danklyrics/pkg v0.4.35
